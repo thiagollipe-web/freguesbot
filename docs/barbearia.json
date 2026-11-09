@@ -1,0 +1,32 @@
+{
+  "business": "Barbearia Exemplo",
+  "owner_handoff": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui.",
+  "data": {
+    "horario": "Seg a Sex 9h às 19h, Sábado 9h às 17h. Domingo fechado.",
+    "endereco": "Rua das Flores, 120, Centro",
+    "pagamento": "Aceitamos Pix, cartão de débito e crédito e dinheiro.",
+    "servicos": {"corte": 40, "barba": 30, "corte e barba": 65, "sobrancelha": 15}
+  },
+  "intents": {
+    "saudacao":   {"examples": ["oi", "ola", "bom dia", "boa tarde", "boa noite", "e ai", "opa tudo bem"],
+                   "answers": ["Olá! Sou o assistente da {business}. Posso ajudar com preços, horários, endereço ou agendamento."]},
+    "preco":      {"examples": ["quanto custa o corte", "qual o valor da barba", "qual o preco", "quanto fica corte e barba", "me passa os precos", "valores dos servicos", "quanto cobra", "tabela de precos"],
+                   "answers": ["{tabela}"]},
+    "horario":    {"examples": ["que horas abre", "qual o horario de funcionamento", "ate que horas funciona", "voces abrem sabado", "abre domingo", "esta aberto agora", "horario de atendimento"],
+                   "answers": ["Nosso horário: {horario}"]},
+    "endereco":   {"examples": ["onde fica", "qual o endereco", "como chego ai", "qual a localizacao", "fica em qual rua", "me manda a localizacao"],
+                   "answers": ["Estamos na {endereco}."]},
+    "pagamento":  {"examples": ["aceita pix", "aceita cartao", "formas de pagamento", "pode pagar no cartao", "tem pix", "parcela no credito"],
+                   "answers": ["{pagamento}"]},
+    "servicos":   {"examples": ["quais servicos voces fazem", "o que voces oferecem", "fazem sobrancelha", "tem barba", "fazem corte infantil"],
+                   "answers": ["Nossos serviços: {lista_servicos}."]},
+    "agendar":    {"examples": ["quero agendar um horario", "quero marcar corte", "tem vaga hoje", "da pra marcar para amanha", "queria agendar", "marcar horario", "tem horario livre", "reservar um horario"],
+                   "answers": []},
+    "cancelar":   {"examples": ["quero cancelar meu horario", "preciso desmarcar", "nao vou poder ir", "remarcar meu horario", "cancelar agendamento"],
+                   "answers": []},
+    "humano":     {"examples": ["quero falar com atendente", "falar com uma pessoa", "chama o dono", "preciso de um humano", "quero falar com alguem"],
+                   "answers": []},
+    "agradecimento": {"examples": ["obrigado", "valeu", "muito obrigado", "obrigada pela ajuda", "show valeu", "ok obrigado"],
+                   "answers": ["Por nada! Qualquer coisa é só chamar.", "Disponha! Até a próxima."]}
+  }
+}

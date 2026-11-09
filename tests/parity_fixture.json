@@ -1,0 +1,910 @@
+{
+ "singles": [
+  {
+   "input": "bom diaa",
+   "intent": "saudacao",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Olá! Sou o assistente da Barbearia Exemplo. Posso ajudar com preços, horários, endereço ou agendamento."
+  },
+  {
+   "input": "oii tudo bem?",
+   "intent": "saudacao",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.774597,
+   "text": "Olá! Sou o assistente da Barbearia Exemplo. Posso ajudar com preços, horários, endereço ou agendamento."
+  },
+  {
+   "input": "boa noite pessoal",
+   "intent": "saudacao",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.854271,
+   "text": "Olá! Sou o assistente da Barbearia Exemplo. Posso ajudar com preços, horários, endereço ou agendamento."
+  },
+  {
+   "input": "qto é o corte?",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.873544,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "quanto ta a barba",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.361753,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "qual valor do corte e barba?",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.552752,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "me manda a tabela de valores",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.757028,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "cobram quanto pela sobrancelha",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.633744,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "vcs abrem aos sabados?",
+   "intent": "horario",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.735759,
+   "text": "Nosso horário: Seg a Sex 9h às 19h, Sábado 9h às 17h. Domingo fechado."
+  },
+  {
+   "input": "até q horas vcs ficam abertos",
+   "intent": "horario",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.892215,
+   "text": "Nosso horário: Seg a Sex 9h às 19h, Sábado 9h às 17h. Domingo fechado."
+  },
+  {
+   "input": "qual horario voces funcionam",
+   "intent": "horario",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Nosso horário: Seg a Sex 9h às 19h, Sábado 9h às 17h. Domingo fechado."
+  },
+  {
+   "input": "hj esta aberto?",
+   "intent": "horario",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.597965,
+   "text": "Nosso horário: Seg a Sex 9h às 19h, Sábado 9h às 17h. Domingo fechado."
+  },
+  {
+   "input": "onde vcs ficam?",
+   "intent": "endereco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Estamos na Rua das Flores, 120, Centro."
+  },
+  {
+   "input": "qual é o endereço de vocês",
+   "intent": "endereco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Estamos na Rua das Flores, 120, Centro."
+  },
+  {
+   "input": "como faço pra chegar ai",
+   "intent": "endereco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.752628,
+   "text": "Estamos na Rua das Flores, 120, Centro."
+  },
+  {
+   "input": "manda a localização",
+   "intent": "endereco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Estamos na Rua das Flores, 120, Centro."
+  },
+  {
+   "input": "aceitam cartão?",
+   "intent": "pagamento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Aceitamos Pix, cartão de débito e crédito e dinheiro."
+  },
+  {
+   "input": "posso pagar no pix",
+   "intent": "pagamento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Aceitamos Pix, cartão de débito e crédito e dinheiro."
+  },
+  {
+   "input": "quais as formas de pagamento",
+   "intent": "pagamento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.837278,
+   "text": "Aceitamos Pix, cartão de débito e crédito e dinheiro."
+  },
+  {
+   "input": "o que vcs fazem?",
+   "intent": "servicos",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Nossos serviços: corte, barba, corte e barba, sobrancelha."
+  },
+  {
+   "input": "fazem sobrancelha ai?",
+   "intent": "servicos",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Nossos serviços: corte, barba, corte e barba, sobrancelha."
+  },
+  {
+   "input": "quais serviços tem",
+   "intent": "servicos",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.776988,
+   "text": "Nossos serviços: corte, barba, corte e barba, sobrancelha."
+  },
+  {
+   "input": "queria marcar um horario",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.869739,
+   "text": "Qual serviço você quer? (corte, barba, corte e barba, sobrancelha)"
+  },
+  {
+   "input": "tem vaga amanha?",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.681543,
+   "text": "Qual serviço você quer? (corte, barba, corte e barba, sobrancelha)"
+  },
+  {
+   "input": "quero agendar corte sexta as 15h",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": {
+    "servico": "corte",
+    "dia": "sexta",
+    "hora": "15:00"
+   },
+   "confidence": 1.0,
+   "text": "Pedido de agendamento: corte, sexta às 15:00. Um atendente vai confirmar a disponibilidade por aqui."
+  },
+  {
+   "input": "preciso cancelar meu horario",
+   "intent": "cancelar",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.646899,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "quero falar com o dono",
+   "intent": "humano",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.651726,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "me chama um atendente",
+   "intent": "humano",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.408248,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "valeu!",
+   "intent": "agradecimento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Por nada! Qualquer coisa é só chamar."
+  },
+  {
+   "input": "muito obrigado",
+   "intent": "agradecimento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Disponha! Até a próxima."
+  },
+  {
+   "input": "obg",
+   "intent": "agradecimento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Disponha! Até a próxima."
+  },
+  {
+   "input": "vocês vendem pomada importada de cabelo?",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "meu cabelo caiu depois do corte, o que faço",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.393675,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "vocês trabalham com noivos no casamento",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.337372,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "qual a previsão do tempo",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.416972,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "posso levar meu cachorro",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "estou muito insatisfeito com o atendimento",
+   "intent": "reclamacao",
+   "handoff": true,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "e aí, tudo certo?",
+   "intent": "saudacao",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.447214,
+   "text": "Olá! Sou o assistente da Barbearia Exemplo. Posso ajudar com preços, horários, endereço ou agendamento."
+  },
+  {
+   "input": "boa tarde!",
+   "intent": "saudacao",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Olá! Sou o assistente da Barbearia Exemplo. Posso ajudar com preços, horários, endereço ou agendamento."
+  },
+  {
+   "input": "quanto sai a barba e o cabelo",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.536788,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "qual o preço do corte",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.69002,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "tem tabela de preço?",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.86319,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "quanto é a sobrancelha",
+   "intent": "servicos",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.572263,
+   "text": "Nossos serviços: corte, barba, corte e barba, sobrancelha."
+  },
+  {
+   "input": "que horas vcs fecham",
+   "intent": "horario",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Nosso horário: Seg a Sex 9h às 19h, Sábado 9h às 17h. Domingo fechado."
+  },
+  {
+   "input": "funcionam no domingo?",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.424958,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "qual o expediente de vocês",
+   "intent": "horario",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.789851,
+   "text": "Nosso horário: Seg a Sex 9h às 19h, Sábado 9h às 17h. Domingo fechado."
+  },
+  {
+   "input": "onde é a barbearia?",
+   "intent": "endereco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.68391,
+   "text": "Estamos na Rua das Flores, 120, Centro."
+  },
+  {
+   "input": "me passa o endereço",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.579954,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "fica perto de que?",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.427242,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "tem desconto no pix?",
+   "intent": "pagamento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.667619,
+   "text": "Aceitamos Pix, cartão de débito e crédito e dinheiro."
+  },
+  {
+   "input": "posso pagar com cartão de crédito?",
+   "intent": "pagamento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.880113,
+   "text": "Aceitamos Pix, cartão de débito e crédito e dinheiro."
+  },
+  {
+   "input": "aceitam dinheiro",
+   "intent": "pagamento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Aceitamos Pix, cartão de débito e crédito e dinheiro."
+  },
+  {
+   "input": "fazem barba também?",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.400379,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "que serviços vocês têm",
+   "intent": "servicos",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.899491,
+   "text": "Nossos serviços: corte, barba, corte e barba, sobrancelha."
+  },
+  {
+   "input": "quero marcar um corte pra hoje",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Qual horário prefere?"
+  },
+  {
+   "input": "tem horário livre amanhã?",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Qual serviço você quer? (corte, barba, corte e barba, sobrancelha)"
+  },
+  {
+   "input": "preciso desmarcar",
+   "intent": "cancelar",
+   "handoff": true,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "quero falar com uma pessoa",
+   "intent": "humano",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.8773,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "brigadão",
+   "intent": "agradecimento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Disponha! Até a próxima."
+  },
+  {
+   "input": "obrigada!",
+   "intent": "agradecimento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.447214,
+   "text": "Por nada! Qualquer coisa é só chamar."
+  },
+  {
+   "input": "vocês cortam cabelo de criança?",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "tem estacionamento?",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.504536,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "vendem shampoo?",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "o corte ficou ruim, quero reclamar",
+   "intent": "reclamacao",
+   "handoff": true,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "qual o wifi",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.535243,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "oi",
+   "intent": "saudacao",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Olá! Sou o assistente da Barbearia Exemplo. Posso ajudar com preços, horários, endereço ou agendamento."
+  },
+  {
+   "input": "OIIIII",
+   "intent": "saudacao",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Olá! Sou o assistente da Barbearia Exemplo. Posso ajudar com preços, horários, endereço ou agendamento."
+  },
+  {
+   "input": "qto custa o corte e barba",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.80216,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "vcs aceitam pix ou cartão",
+   "intent": "pagamento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.995444,
+   "text": "Aceitamos Pix, cartão de débito e crédito e dinheiro."
+  },
+  {
+   "input": "q horas vcs abrem",
+   "intent": "horario",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Nosso horário: Seg a Sex 9h às 19h, Sábado 9h às 17h. Domingo fechado."
+  },
+  {
+   "input": "onde ficaa a barbearia",
+   "intent": "endereco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.68391,
+   "text": "Estamos na Rua das Flores, 120, Centro."
+  },
+  {
+   "input": "tem horário pra sexta?",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.671176,
+   "text": "Qual serviço você quer? (corte, barba, corte e barba, sobrancelha)"
+  },
+  {
+   "input": "quero cortar o cabelo",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.43279,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "quero agendar barba terça às 9:30",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": {
+    "servico": "barba",
+    "dia": "terça",
+    "hora": "09:30"
+   },
+   "confidence": 0.681435,
+   "text": "Pedido de agendamento: barba, terça às 09:30. Um atendente vai confirmar a disponibilidade por aqui."
+  },
+  {
+   "input": "marcar corte dia 12/05",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.623659,
+   "text": "Qual horário prefere?"
+  },
+  {
+   "input": "sombrancelha quanto é",
+   "intent": "servicos",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.572263,
+   "text": "Nossos serviços: corte, barba, corte e barba, sobrancelha."
+  },
+  {
+   "input": "atendimento péssimo",
+   "intent": "reclamacao",
+   "handoff": true,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "vou chamar o procon",
+   "intent": "reclamacao",
+   "handoff": true,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "preciso falar com humano",
+   "intent": "humano",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.564744,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "cancelar meu horário",
+   "intent": "cancelar",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.75787,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "kkkkk",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "123",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.0,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "quero agendar",
+   "intent": "agendar",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.8072,
+   "text": "Qual serviço você quer? (corte, barba, corte e barba, sobrancelha)"
+  },
+  {
+   "input": "valeu, obrigado!",
+   "intent": "agradecimento",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.747771,
+   "text": "Disponha! Até a próxima."
+  },
+  {
+   "input": "tem desconto?",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.504536,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "vocês fazem tatuagem",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.522927,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "qual o valor da sobrancelha e da barba",
+   "intent": "preco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.678054,
+   "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+  },
+  {
+   "input": "que dia vcs fecham",
+   "intent": "desconhecido",
+   "handoff": true,
+   "booking": null,
+   "confidence": 0.438613,
+   "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+  },
+  {
+   "input": "boa noite, tudo bem?",
+   "intent": "saudacao",
+   "handoff": false,
+   "booking": null,
+   "confidence": 0.688292,
+   "text": "Olá! Sou o assistente da Barbearia Exemplo. Posso ajudar com preços, horários, endereço ou agendamento."
+  },
+  {
+   "input": "me manda o endereço por favor",
+   "intent": "endereco",
+   "handoff": false,
+   "booking": null,
+   "confidence": 1.0,
+   "text": "Estamos na Rua das Flores, 120, Centro."
+  }
+ ],
+ "dialogs": [
+  [
+   {
+    "input": "quero agendar corte",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": null,
+    "confidence": 1.0,
+    "text": "Para qual dia?"
+   },
+   {
+    "input": "sexta",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": null,
+    "confidence": 0.0,
+    "text": "Qual horário prefere?"
+   },
+   {
+    "input": "15h",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": {
+     "servico": "corte",
+     "dia": "sexta",
+     "hora": "15:00"
+    },
+    "confidence": 0.0,
+    "text": "Pedido de agendamento: corte, sexta às 15:00. Um atendente vai confirmar a disponibilidade por aqui."
+   }
+  ],
+  [
+   {
+    "input": "quero marcar barba amanhã",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": null,
+    "confidence": 0.681435,
+    "text": "Qual horário prefere?"
+   },
+   {
+    "input": "às 10h",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": {
+     "servico": "barba",
+     "dia": "amanhã",
+     "hora": "10:00"
+    },
+    "confidence": 0.0,
+    "text": "Pedido de agendamento: barba, amanhã às 10:00. Um atendente vai confirmar a disponibilidade por aqui."
+   }
+  ],
+  [
+   {
+    "input": "agendar corte e barba",
+    "intent": "ambiguo",
+    "handoff": false,
+    "booking": null,
+    "confidence": 0.568849,
+    "text": "Só para entender: você quer saber sobre agendar ou preco?"
+   },
+   {
+    "input": "sábado",
+    "intent": "desconhecido",
+    "handoff": true,
+    "booking": null,
+    "confidence": 0.0,
+    "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+   },
+   {
+    "input": "9:30",
+    "intent": "desconhecido",
+    "handoff": true,
+    "booking": null,
+    "confidence": 0.0,
+    "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+   },
+   {
+    "input": "obrigado",
+    "intent": "agradecimento",
+    "handoff": false,
+    "booking": null,
+    "confidence": 1.0,
+    "text": "Disponha! Até a próxima."
+   }
+  ],
+  [
+   {
+    "input": "quero agendar corte",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": null,
+    "confidence": 1.0,
+    "text": "Para qual dia?"
+   },
+   {
+    "input": "na verdade o último corte foi horrível",
+    "intent": "reclamacao",
+    "handoff": true,
+    "booking": null,
+    "confidence": 1.0,
+    "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+   }
+  ],
+  [
+   {
+    "input": "quero agendar",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": null,
+    "confidence": 0.8072,
+    "text": "Qual serviço você quer? (corte, barba, corte e barba, sobrancelha)"
+   },
+   {
+    "input": "corte",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": null,
+    "confidence": 0.404871,
+    "text": "Para qual dia?"
+   },
+   {
+    "input": "quanto custa?",
+    "intent": "preco",
+    "handoff": false,
+    "booking": null,
+    "confidence": 1.0,
+    "text": "Nossos preços: corte: R$ 40; barba: R$ 30; corte e barba: R$ 65; sobrancelha: R$ 15."
+   },
+   {
+    "input": "hoje",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": null,
+    "confidence": 0.0,
+    "text": "Qual horário prefere?"
+   },
+   {
+    "input": "14h",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": {
+     "servico": "corte",
+     "dia": "hoje",
+     "hora": "14:00"
+    },
+    "confidence": 0.0,
+    "text": "Pedido de agendamento: corte, hoje às 14:00. Um atendente vai confirmar a disponibilidade por aqui."
+   }
+  ],
+  [
+   {
+    "input": "quero agendar corte sexta",
+    "intent": "agendar",
+    "handoff": false,
+    "booking": null,
+    "confidence": 1.0,
+    "text": "Qual horário prefere?"
+   },
+   {
+    "input": "quero falar com atendente",
+    "intent": "humano",
+    "handoff": true,
+    "booking": null,
+    "confidence": 1.0,
+    "text": "Vou chamar um atendente para te ajudar com isso, já já ele responde por aqui."
+   }
+  ]
+ ]
+}

@@ -3,63 +3,158 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>freguesbot — bots clássicos para leads, pesquisa e atendimento (sem IA generativa)</title>
-<meta name="description" content="Projeto open source: bots determinísticos em Python que acham leads, filtram conteúdo viral e atendem clientes com transbordo para humano. Sem LLM, sem mensalidade.">
-<style>
-  :root{--bg:#0b1016;--card:#161e29;--gold:#ffc83d;--muted:#9aa7b5}
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:#fff;font:17px/1.55 system-ui,sans-serif}
-  main{max-width:720px;margin:0 auto;padding:28px 20px 60px} h1{color:var(--gold);font-size:32px;margin:0 0 6px} h2{margin:36px 0 8px}
-  .sub{color:var(--muted)} .card{background:var(--card);border-radius:14px;padding:16px 18px;margin:12px 0} .card b{color:var(--gold)}
-  code,pre{background:#0006;border-radius:8px;font-size:14px} pre{padding:12px;overflow:auto} code{padding:1px 6px}
-  a{color:var(--gold)} .btn{display:inline-block;border:0;border-radius:12px;padding:13px 18px;background:var(--gold);color:#000;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
-  .hide{display:none} small{color:var(--muted)} ul{padding-left:20px}
-</style>
+<title>freguesbot — bots que atendem o balcão, sem IA e sem mensalidade</title>
+<meta name="description" content="Bots clássicos em Python, código aberto: atendem clientes, acham leads e chamam uma pessoa quando não sabem. Sem IA generativa, sem mensalidade. Converse com um aqui.">
+<meta name="theme-color" content="#efe9dc">
+<meta property="og:title" content="freguesbot — bots que atendem o balcão">
+<meta property="og:description" content="Sem IA generativa, sem mensalidade, código aberto. Converse com o bot na página.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://thiagollipe-web.github.io/freguesbot/docs/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314110f'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23d6361c'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
-<main>
-  <h1>⚙️ freguesbot</h1>
-  <p class="sub">Bots clássicos em Python que trabalham para pequenos negócios. <b>Sem IA generativa, sem mensalidade, código aberto.</b></p>
+<a class="skip" href="#demo">Ir para a demonstração</a>
+<div class="bar" id="bar" aria-hidden="true"></div>
 
-  <div class="card"><b>Por que sem LLM?</b> Um bot de regras e estatística não inventa preço nem promessa: só responde o que o dono cadastrou. Roda no seu computador, não manda seus dados para ninguém e custa zero.</div>
+<header class="top">
+  <a class="logo" href="#topo" aria-label="freguesbot, início"><i></i>freguesbot</a>
+  <nav aria-label="Principal">
+    <a class="nav-link" href="#demo">Conversar</a>
+    <a class="nav-link" href="#bots">Os bots</a>
+    <a class="nav-link" href="#apoio">Apoiar</a>
+    <a class="btn mini" href="#" id="gh-top">GitHub</a>
+  </nav>
+</header>
 
-  <h2>O que já existe</h2>
-  <div class="card"><b>🔎 Gerador de leads.</b> Escolhe nicho e cidade, busca estabelecimentos no OpenStreetMap, dá nota por regras que ele explica (tem telefone? não tem site?) e sugere a abordagem. Não dispara mensagem nenhuma.</div>
-  <div class="card"><b>💬 Atendimento.</b> Entende gírias e erros de digitação ("qto é o corte?"), conduz o agendamento perguntando só o que falta e passa para uma pessoa quando não sabe. Reclamação vai sempre para um humano.</div>
-  <div class="card"><b>📈 Pesquisa viral.</b> Calcula engajamento ÷ seguidores e separa o top 5% do conteúdo.</div>
-
-  <h2>Quão bom é, de verdade</h2>
-  <div class="card">O atendimento acertou <b>75%</b> em frases novas de teste e <b>encaminha ao humano</b> o que não entende. Ele melhora conforme o dono cadastra as perguntas reais do negócio. Os números e as limitações estão no README, sem maquiagem.</div>
-
-  <h2>Como usar</h2>
-<pre>git clone &lt;repositório&gt;
-cd freguesbot
-python3 -m bots.leads.run --niche barbearia --city "Goiânia" --state "Goiás" --csv leads.csv</pre>
-
-  <section id="apoio" class="hide">
-    <h2>Ajudou? Apoie o projeto</h2>
-    <div class="card">
-      <p>O freguesbot é gratuito e continuará sendo. Se ele te poupou tempo, qualquer valor via Pix ajuda a manter e a criar novos bots. <small>Sem obrigação nenhuma.</small></p>
-      <button class="btn" id="copiar">Copiar Pix (copia e cola)</button>
-      <p><small id="chave"></small></p>
+<main id="topo">
+  <section class="hero" aria-labelledby="h1">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow rv">Comanda nº 0001 · código aberto · MIT</p>
+        <h1 id="h1">
+          <span class="l"><span style="--d:.05s">Atende o freguês.</span></span>
+          <span class="l t"><span style="--d:.18s">Acha o próximo.</span></span>
+          <span class="l"><span class="m" style="--d:.31s">Não inventa nada.</span></span>
+        </h1>
+        <p class="lede rv" style="--d:.5s">Bots clássicos para pequenos negócios: regras, estatística e SQLite. <strong>Sem IA generativa, sem mensalidade</strong>, e quando não sabem, chamam uma pessoa.</p>
+        <div class="cta rv" style="--d:.65s">
+          <a class="btn" href="#demo" data-magnet>Conversar com o bot ↓</a>
+          <a class="btn ghost" href="#" id="gh-hero" data-magnet>Ver o código</a>
+        </div>
+      </div>
+      <section class="ticket" id="ticket1" aria-label="Comanda do freguesbot">
+        <h2>freguesbot · balcão</h2>
+        <p class="sub">nº 0001 · via do cliente</p>
+        <ul>
+          <li style="--d:.5s"><span>1x Atendimento</span><i aria-hidden="true"></i><b>R$ 0,00</b></li>
+          <li style="--d:.65s"><span>1x Gerador de leads</span><i aria-hidden="true"></i><b>R$ 0,00</b></li>
+          <li style="--d:.8s"><span>1x Pesquisa viral</span><i aria-hidden="true"></i><b>R$ 0,00</b></li>
+          <li style="--d:.95s"><span>Mensalidade</span><i aria-hidden="true"></i><b>R$ 0,00</b></li>
+          <li class="no" style="--d:1.1s"><span>IA generativa</span><i aria-hidden="true"></i><b>não usa</b></li>
+        </ul>
+        <p class="total"><span>TOTAL</span><b>R$ 0,00</b></p>
+        <p class="foot">obrigado pela preferência</p>
+        <span class="stamp" aria-hidden="true">SEM IA</span>
+      </section>
     </div>
   </section>
 
-  <p class="sub" style="margin-top:36px"><small>Dados de estabelecimentos © OpenStreetMap contributors (ODbL). Licença do código: MIT.</small> <span id="repo"></span></p>
+  <section class="marquee" aria-label="Frases de clientes que o bot entende">
+    <div class="track">
+      <p>“qto é o corte?” <span>✦</span> “vcs abrem sábado?” <span>✦</span> “tem vaga amanhã?” <span>✦</span> “aceita pix?” <span>✦</span> “onde fica?” <span>✦</span> “quero marcar corte” <span>✦</span> “quanto sai a barba?” <span>✦</span></p>
+      <p class="dup" aria-hidden="true">“qto é o corte?” <span>✦</span> “vcs abrem sábado?” <span>✦</span> “tem vaga amanhã?” <span>✦</span> “aceita pix?” <span>✦</span> “onde fica?” <span>✦</span> “quero marcar corte” <span>✦</span> “quanto sai a barba?” <span>✦</span></p>
+    </div>
+  </section>
+
+  <section class="say wrap" id="say" aria-label="Por que sem IA">
+    <p id="saytext" data-words="Um bot de regras não inventa preço. Só responde o que o dono cadastrou. E quando não sabe, chama uma pessoa.">Um bot de regras não inventa preço. Só responde o que o dono cadastrou. E quando não sabe, chama uma pessoa.</p>
+  </section>
+
+  <section class="demo" id="demo" aria-labelledby="demo-h">
+    <div class="wrap">
+      <p class="eyebrow rv">Demonstração ao vivo · roda no seu navegador</p>
+      <h2 id="demo-h" class="rv">Converse. E veja ele pensar.</h2>
+      <p class="intro rv">É o mesmo método do bot em Python (a equivalência é testada), sem enviar nada para servidor nenhum. Toque numa frase ou escreva a sua. As vermelhas são as que ele <em>não</em> deve responder.</p>
+
+      <div class="stage">
+        <div class="phone" id="phone" data-state="loading">
+          <header><span class="av" aria-hidden="true">B</span><div><b>Barbearia Exemplo</b><span>assistente · sem IA</span></div></header>
+          <div class="log" id="log" role="log" aria-live="polite" aria-label="Conversa com o bot"></div>
+          <div class="chips" id="chips" aria-label="Sugestões de frases"></div>
+          <form id="form" autocomplete="off">
+            <label class="sr" for="msg">Sua mensagem</label>
+            <input id="msg" name="msg" type="text" placeholder="Escreva sua mensagem…" maxlength="200" enterkeyhint="send" disabled>
+            <button class="btn" type="submit" disabled>Enviar</button>
+          </form>
+        </div>
+
+        <aside class="brain" aria-label="Como o bot decidiu">
+          <div><h3>1 · O que ele leu</h3><div class="toks" id="toks" aria-live="polite"><em>(aguardando uma mensagem)</em></div></div>
+          <div><h3>2 · Intenções candidatas</h3><div class="bars" id="bars"><em class="mono" style="color:#efe9dc88;font-size:.82rem">(nada ainda)</em></div></div>
+          <div><h3>3 · Decisão</h3><div class="verdict" id="verdict" data-d="idle" aria-live="polite">Esperando você</div></div>
+          <p class="rule">Responde se a confiança é ≥ 0,55, ou ≥ 0,35 com folga de 0,15 sobre a segunda. Reclamação vai direto para uma pessoa.</p>
+          <div class="owner"><h3>Fila do dono (o que ele não soube)</h3><ol id="queue"><li style="list-style:none;margin-left:-1.1rem;color:#efe9dc88">vazia</li></ol></div>
+        </aside>
+      </div>
+      <p class="note">Ele já acertou <strong>75%</strong> em frases novas de teste e <strong>nunca</strong> responde reclamação sozinho. O que não entende vira uma pergunta na fila do dono, que ensina o bot depois. Sem IA, o limite é este, e ele avisa.</p>
+    </div>
+  </section>
+
+  <section class="bots wrap" id="bots" aria-labelledby="bots-h">
+    <p class="eyebrow rv">O cardápio</p>
+    <h2 id="bots-h" class="rv">Três bots. Todos com a conta zerada.</h2>
+    <article class="item rv"><span class="n">01</span><h3>Atendimento</h3><div><p>Entende gíria e erro de digitação, conduz o agendamento perguntando só o que falta e passa para uma pessoa quando não sabe.</p><span class="chip ok">75% em frases novas · testado</span></div></article>
+    <article class="item rv"><span class="n">02</span><h3>Gerador de leads</h3><div><p>Nicho + cidade → estabelecimentos do OpenStreetMap, nota por regras que ele explica e uma dica de abordagem. Não dispara mensagem nenhuma.</p><span class="chip half">lógica testada · coleta ao vivo ainda não validada</span></div></article>
+    <article class="item rv"><span class="n">03</span><h3>Pesquisa viral</h3><div><p>Calcula engajamento ÷ seguidores e separa o top 5% do conteúdo, para você copiar o que já funciona.</p><span class="chip ok">testado com CSV</span></div></article>
+    <div class="nots rv"><h3>O que ele não faz</h3><ul><li>Conversa aberta: o que não entende vai para uma pessoa.</li><li>Disparo em massa no WhatsApp ou e-mail (dá banimento e problema com a LGPD).</li><li>Prometer resultado. Os números estão no README, medidos, com as falhas.</li></ul></div>
+  </section>
+
+  <section class="pay" id="apoio" aria-labelledby="pay-h">
+    <div class="wrap grid">
+      <div>
+        <p class="eyebrow rv">Fechando a conta</p>
+        <h2 id="pay-h" class="rv">Total: R$ 0,00. A gorjeta é sua.</h2>
+        <p class="l rv">O freguesbot é gratuito e vai continuar sendo. Se ele te poupou tempo, um Pix de qualquer valor ajuda a manter e a criar novos bots. Sem obrigação nenhuma.</p>
+        <div class="pixbox rv" id="pixbox">
+          <button class="btn gold" id="pixbtn" type="button">Copiar Pix (copia e cola)</button>
+          <p class="status" id="pixstatus" role="status"></p>
+          <p class="key" id="pixkey"></p>
+          <textarea id="pixtext" class="hide" rows="4" readonly aria-label="Código Pix copia e cola"></textarea>
+        </div>
+        <div class="cta rv"><a class="btn ghost" href="#" id="gh-pay">Dar uma estrela no GitHub ★</a></div>
+      </div>
+      <section class="ticket" id="ticket2" aria-label="Conta final">
+        <h3>conta final</h3>
+        <p class="sub">balcão</p>
+        <ul>
+          <li style="--d:.1s"><span>Atendimento</span><i aria-hidden="true"></i><b>R$ 0,00</b></li>
+          <li style="--d:.2s"><span>Leads</span><i aria-hidden="true"></i><b>R$ 0,00</b></li>
+          <li style="--d:.3s"><span>Pesquisa viral</span><i aria-hidden="true"></i><b>R$ 0,00</b></li>
+          <li style="--d:.4s"><span>Gorjeta (opcional)</span><i aria-hidden="true"></i><b>R$ ____</b></li>
+        </ul>
+        <p class="total"><span>TOTAL</span><b>R$ 0,00</b></p>
+        <p class="foot">volte sempre</p>
+        <span class="stamp" aria-hidden="true">PAGO</span>
+      </section>
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap">
+    Licença MIT · por Thiago Fillipe Soares · <a href="#" id="gh-foot">código no GitHub</a><br>
+    Dados de estabelecimentos © OpenStreetMap contributors (ODbL) · índice de APIs do repositório public-apis (MIT)<br>
+    Fontes Bricolage Grotesque e IBM Plex Mono (SIL Open Font License)
+  </div>
+</footer>
+
 <script src="config.js"></script>
 <script src="pix.js"></script>
-<script>
-  const c = window.FREGUESBOT || {};
-  if (c.repoUrl) document.getElementById("repo").innerHTML = ' · <a href="' + encodeURI(c.repoUrl) + '">Código no GitHub</a>';
-  if (c.pixKey) {
-    document.getElementById("apoio").classList.remove("hide");
-    document.getElementById("chave").textContent = "Chave Pix: " + c.pixKey;
-    document.getElementById("copiar").onclick = async (e) => {
-      const code = Pix.pixPayload({ key: c.pixKey, name: c.pixName, city: c.pixCity });
-      await navigator.clipboard.writeText(code);
-      e.target.textContent = "Copiado! Cole no app do seu banco";
-    };
-  }
-</script>
+<script src="bot.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

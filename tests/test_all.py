@@ -78,5 +78,13 @@ class Cli(unittest.TestCase):
         self.assertEqual(con.execute("SELECT COUNT(*) FROM items").fetchone()[0], 2)  # ceil(40*5%)
         self.assertEqual(con.execute("SELECT title FROM items ORDER BY rate DESC").fetchone()[0], "post40")
 
+class Parity(unittest.TestCase):
+    def test_js_fixture_is_fresh(self):
+        """Se o Python mudou, rode tests/make_parity_fixture.py: o JavaScript (docs/bot.js) é testado contra esse arquivo."""
+        import json
+        from tests import make_parity_fixture
+        path = os.path.join(os.path.dirname(__file__), "parity_fixture.json")
+        self.assertEqual(make_parity_fixture.build(), json.load(open(path, encoding="utf-8")))
+
 if __name__ == "__main__":
     unittest.main()

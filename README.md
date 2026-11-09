@@ -19,9 +19,14 @@ Requer Python 3.11+. Nenhuma dependência externa.
 ```bash
 python3 -m bots.leads.run --niche barbearia --city "Goiânia" --state "Goiás" --csv leads.csv
 python3 -m bots.viral.run --csv dados.csv --pct 0.05
-PYTHONPATH=. python3 -m unittest discover -s tests -t .      # testes
+PYTHONPATH=. python3 -m unittest discover -s tests -t .      # testes do Python
+node --test docs/pix.test.mjs docs/bot.test.mjs               # Pix e equivalência JS↔Python
 ```
 Para atender outro negócio, copie `bots/support/configs/barbearia.json` e troque horários, preços e perguntas.
+
+## Site (`docs/`)
+Vitrine estática, sem build e sem dependências: uma "comanda de balcão" com o **bot de atendimento rodando no navegador** (`docs/bot.js`, porta do Python). A equivalência é testada: `tests/make_parity_fixture.py` gera as respostas do Python e `docs/bot.test.mjs` exige que o JavaScript repita todas. Se mudar o Python, regenere o arquivo (um teste avisa).
+Para ver localmente: `python3 -m http.server -d docs 8000`. Respeita `prefers-reduced-motion`.
 
 ## Limitações (medidas, não maquiadas)
 - **Atendimento:** 75% de acerto em 28 frases novas escritas depois dos ajustes; 4 respostas erradas antes da trava de reclamações. Com o FAQ real do negócio melhora, mas não é um chat aberto: o que não entende vai para um humano.
@@ -35,4 +40,4 @@ Gratuito e continuará sendo. Se te poupou tempo, qualquer valor via Pix ajuda. 
 A mensagem no terminal pode ser desligada com `FREGUESBOT_NO_DONATE=1`.
 
 ## Licença
-MIT. Dados de estabelecimentos © OpenStreetMap contributors (ODbL).
+MIT. Dados de estabelecimentos © OpenStreetMap contributors (ODbL). Fontes Bricolage Grotesque e IBM Plex Mono sob a SIL Open Font License.
