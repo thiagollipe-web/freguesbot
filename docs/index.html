@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>freguesbot — bots clássicos para leads, pesquisa e atendimento (sem IA generativa)</title>
+<meta name="description" content="Projeto open source: bots determinísticos em Python que acham leads, filtram conteúdo viral e atendem clientes com transbordo para humano. Sem LLM, sem mensalidade.">
+<style>
+  :root{--bg:#0b1016;--card:#161e29;--gold:#ffc83d;--muted:#9aa7b5}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:#fff;font:17px/1.55 system-ui,sans-serif}
+  main{max-width:720px;margin:0 auto;padding:28px 20px 60px} h1{color:var(--gold);font-size:32px;margin:0 0 6px} h2{margin:36px 0 8px}
+  .sub{color:var(--muted)} .card{background:var(--card);border-radius:14px;padding:16px 18px;margin:12px 0} .card b{color:var(--gold)}
+  code,pre{background:#0006;border-radius:8px;font-size:14px} pre{padding:12px;overflow:auto} code{padding:1px 6px}
+  a{color:var(--gold)} .btn{display:inline-block;border:0;border-radius:12px;padding:13px 18px;background:var(--gold);color:#000;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
+  .hide{display:none} small{color:var(--muted)} ul{padding-left:20px}
+</style>
+</head>
+<body>
+<main>
+  <h1>⚙️ freguesbot</h1>
+  <p class="sub">Bots clássicos em Python que trabalham para pequenos negócios. <b>Sem IA generativa, sem mensalidade, código aberto.</b></p>
+
+  <div class="card"><b>Por que sem LLM?</b> Um bot de regras e estatística não inventa preço nem promessa: só responde o que o dono cadastrou. Roda no seu computador, não manda seus dados para ninguém e custa zero.</div>
+
+  <h2>O que já existe</h2>
+  <div class="card"><b>🔎 Gerador de leads.</b> Escolhe nicho e cidade, busca estabelecimentos no OpenStreetMap, dá nota por regras que ele explica (tem telefone? não tem site?) e sugere a abordagem. Não dispara mensagem nenhuma.</div>
+  <div class="card"><b>💬 Atendimento.</b> Entende gírias e erros de digitação ("qto é o corte?"), conduz o agendamento perguntando só o que falta e passa para uma pessoa quando não sabe. Reclamação vai sempre para um humano.</div>
+  <div class="card"><b>📈 Pesquisa viral.</b> Calcula engajamento ÷ seguidores e separa o top 5% do conteúdo.</div>
+
+  <h2>Quão bom é, de verdade</h2>
+  <div class="card">O atendimento acertou <b>75%</b> em frases novas de teste e <b>encaminha ao humano</b> o que não entende. Ele melhora conforme o dono cadastra as perguntas reais do negócio. Os números e as limitações estão no README, sem maquiagem.</div>
+
+  <h2>Como usar</h2>
+<pre>git clone &lt;repositório&gt;
+cd freguesbot
+python3 -m bots.leads.run --niche barbearia --city "Goiânia" --state "Goiás" --csv leads.csv</pre>
+
+  <section id="apoio" class="hide">
+    <h2>Ajudou? Apoie o projeto</h2>
+    <div class="card">
+      <p>O freguesbot é gratuito e continuará sendo. Se ele te poupou tempo, qualquer valor via Pix ajuda a manter e a criar novos bots. <small>Sem obrigação nenhuma.</small></p>
+      <button class="btn" id="copiar">Copiar Pix (copia e cola)</button>
+      <p><small id="chave"></small></p>
+    </div>
+  </section>
+
+  <p class="sub" style="margin-top:36px"><small>Dados de estabelecimentos © OpenStreetMap contributors (ODbL). Licença do código: MIT.</small> <span id="repo"></span></p>
+</main>
+<script src="config.js"></script>
+<script src="pix.js"></script>
+<script>
+  const c = window.FREGUESBOT || {};
+  if (c.repoUrl) document.getElementById("repo").innerHTML = ' · <a href="' + encodeURI(c.repoUrl) + '">Código no GitHub</a>';
+  if (c.pixKey) {
+    document.getElementById("apoio").classList.remove("hide");
+    document.getElementById("chave").textContent = "Chave Pix: " + c.pixKey;
+    document.getElementById("copiar").onclick = async (e) => {
+      const code = Pix.pixPayload({ key: c.pixKey, name: c.pixName, city: c.pixCity });
+      await navigator.clipboard.writeText(code);
+      e.target.textContent = "Copiado! Cole no app do seu banco";
+    };
+  }
+</script>
+</body>
+</html>
