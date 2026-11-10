@@ -20,12 +20,17 @@ Requer Python 3.11+. Nenhuma dependência externa.
 python3 -m bots.leads.run --niche barbearia --city "Goiânia" --state "Goiás" --csv leads.csv
 python3 -m bots.viral.run --csv dados.csv --pct 0.05
 PYTHONPATH=. python3 -m unittest discover -s tests -t .      # testes do Python
-node --test docs/pix.test.mjs docs/bot.test.mjs               # Pix e equivalência JS↔Python
+node --test docs/pix.test.mjs docs/bot.test.mjs docs/kit.test.mjs               # Pix e equivalência JS↔Python
 ```
 Para atender outro negócio, copie `bots/support/configs/barbearia.json` e troque horários, preços e perguntas.
 
+## Monte o seu (sem programar)
+`docs/montar.html`: o dono preenche nome, serviços com preço, horário, endereço, pagamento e perguntas extras, testa o bot ao vivo e recebe um **link** (`atender.html#c=...`, a configuração vai dentro do link, nada fica em servidor) ou um **arquivo .html** que funciona sozinho. Quando o bot não sabe, ou o cliente pede agendamento, aparece um botão que abre o WhatsApp do dono com a dúvida pronta; o bot não envia nada sozinho. Perguntas que ele não soube viram uma lista com botão "Ensinar".
+Medido com um negócio diferente do exemplo (`docs/kit.test.mjs`): 23/28 (82%) em frases inéditas, com 3 respostas erradas dadas com confiança (frases fora do assunto que dividem palavras com o cardápio, como "quanto custa um carro"). Sem IA, esse é o limite: teste antes de divulgar.
+
 ## Site (`docs/`)
 Vitrine estática, sem build e sem dependências: uma "comanda de balcão" com o **bot de atendimento rodando no navegador** (`docs/bot.js`, porta do Python). A equivalência é testada: `tests/make_parity_fixture.py` gera as respostas do Python e `docs/bot.test.mjs` exige que o JavaScript repita todas. Se mudar o Python, regenere o arquivo (um teste avisa).
+`docs/atendimento-exemplo.html` é gerado: rode `node tools/build_exemplo.mjs` depois de mudar `bot.js`, `kit.js`, `chat.js`, `atender.*` ou `tool.css`.
 Para ver localmente: `python3 -m http.server -d docs 8000`. Respeita `prefers-reduced-motion`.
 
 ## Limitações (medidas, não maquiadas)

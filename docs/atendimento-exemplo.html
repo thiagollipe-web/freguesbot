@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Atendimento</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#14110f">
+<link rel="icon" href="data:,">
+<style>/* Montador e atendimento do freguesbot. Autônomo: serve também dentro do arquivo .html baixado. */
+
+
+
+:root{--paper:#efe9dc;--paper2:#e4dccb;--ink:#14110f;--ink2:#25201c;--receipt:#fbf8f0;--tomato:#d6361c;--tomato-d:#b32a14;--mustard:#f0b429;--teal:#0f6b5c;--mute:#675e53;
+  --display:"Bricolage","Helvetica Neue",Arial,sans-serif;--mono:"Plex Mono",ui-monospace,Menlo,Consolas,monospace;--pad:clamp(1.1rem,4vw,3rem);--ease:cubic-bezier(.2,.7,.1,1)}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{background:var(--paper);color:var(--ink);font:400 1.0625rem/1.55 var(--display);overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:3px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hide{display:none!important}
+.eyebrow{font:600 .75rem/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;padding:.8rem 1.4rem;border-radius:999px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font:700 1rem var(--display);text-decoration:none;transition:background .2s,color .2s}
+.btn:hover{background:var(--tomato);border-color:var(--tomato)}
+.btn:disabled{opacity:.45;cursor:not-allowed}.btn:disabled:hover{background:var(--ink);border-color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}.btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.mini{min-height:44px;padding:.5rem 1rem;font-size:.9rem}
+.btn.gold{background:var(--mustard);border-color:var(--mustard);color:var(--ink)}.btn.gold:hover{background:var(--paper);border-color:var(--ink)}
+.btn.wa{background:var(--teal);border-color:var(--teal);color:#fff}.btn.wa:hover{background:#0b5246;border-color:#0b5246}
+
+/* chat (claro): cliente e teste do dono */
+.chat{background:var(--paper);display:flex;flex-direction:column;min-height:0;min-width:0}
+.chat header{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:var(--ink);color:var(--paper)}
+.chat header>div{flex:1;min-width:0}
+.chat .av{flex:none;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--mustard);color:var(--ink);display:grid;place-items:center;font:800 1.1rem var(--display)}
+.chat header b{display:block;font-weight:700;line-height:1.15;overflow-wrap:anywhere}
+.chat header span:not(.av){font:400 .72rem var(--mono);color:#efe9dcb0}
+.log{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.7rem}
+.msg{max-width:86%;padding:.65rem .95rem;border-radius:18px;font-size:1rem;line-height:1.4;overflow-wrap:anywhere;animation:pop .25s var(--ease)}
+.msg.bot{background:var(--receipt);box-shadow:0 1px 0 #14110f22;border-bottom-left-radius:4px;align-self:flex-start}
+.msg.me{background:var(--mustard);border-bottom-right-radius:4px;align-self:flex-end}
+.msg.human{background:var(--receipt);box-shadow:0 1px 0 #14110f22;border-left:5px solid var(--tomato);align-self:flex-start}
+.msg small{display:block;font:600 .66rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tomato-d);margin-bottom:.2rem}
+.msg.sys{align-self:center;background:transparent;color:var(--mute);font:400 .8rem var(--mono);text-align:center;max-width:100%}
+.msg .btn{display:flex;margin-top:.6rem}
+.msg a:not(.btn){color:var(--tomato-d)}
+.dots{display:inline-flex;gap:.25rem;padding:.2rem 0}.dots i{width:.45rem;height:.45rem;border-radius:50%;background:var(--ink);opacity:.35;animation:blink 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:1}}@keyframes pop{from{opacity:0;transform:translateY(8px)}}
+.chips{display:flex;gap:.5rem;overflow-x:auto;padding:.6rem 1rem;scrollbar-width:thin}
+.chips:empty{display:none}
+.chips button{flex:none;min-height:44px;padding:.4rem .95rem;border-radius:999px;border:1.5px solid var(--ink);background:transparent;font:400 .85rem var(--mono);transition:background .2s,color .2s}
+.chips button:hover{background:var(--ink);color:var(--paper)}
+.chat form{display:flex;gap:.5rem;padding:.6rem 1rem 1rem}
+.chat input{flex:1;min-width:0;min-height:48px;border-radius:999px;border:2px solid var(--ink);background:var(--receipt);padding:0 1.1rem;font:inherit;font-size:1rem}
+.chat form .btn{background:var(--mustard);border-color:var(--mustard);color:var(--ink)}.chat form .btn:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chat .foot{font:400 .72rem/1.5 var(--mono);color:var(--mute);padding:0 1rem 1.2rem;text-align:center}
+
+/* página do cliente: ocupa a tela no celular, vira cartão no desktop */
+.cust{min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);place-items:stretch}
+.cust .chat{height:100dvh;max-width:560px;width:100%;margin:0 auto}
+@media(min-width:700px){.cust{padding:2rem 1rem;place-items:center}.cust .chat{height:min(46rem,calc(100dvh - 4rem));border-radius:28px;overflow:hidden;box-shadow:0 30px 60px -30px #14110f66;border:1px solid #14110f22}}
+
+/* montador */
+.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem var(--pad);background:color-mix(in srgb,var(--paper) 93%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid #14110f14}
+.logo{font:800 1.25rem/1 var(--display);letter-spacing:-.04em;text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.logo i{width:.7rem;height:.7rem;border-radius:50%;background:var(--tomato)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--pad)}
+.head{padding:clamp(2rem,6vw,4rem) 0 1.4rem}
+.head h1{font:800 clamp(2.1rem,7vw,3.8rem)/.98 var(--display);letter-spacing:-.045em;margin:.7rem 0 1rem;max-width:18ch;text-wrap:balance}
+.head p{max-width:40rem;color:var(--ink2)}
+.head .row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+.build{display:grid;grid-template-columns:minmax(0,1fr);gap:2rem;padding-bottom:4rem}
+@media(min-width:1000px){.build{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:3rem;align-items:start}.side{position:sticky;top:5rem}}
+fieldset{border:0;padding:0;min-width:0}
+.card{background:var(--receipt);padding:1.4rem 1.3rem 1.6rem;box-shadow:0 1px 0 #0001,0 14px 30px -18px #14110f55;margin-bottom:1.4rem;position:relative}
+.card legend{float:left;width:100%;font:600 .8rem var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:0 0 .9rem;margin-bottom:.4rem;border-bottom:2px dashed #14110f55}
+.card legend+*{clear:both}
+.hint{font:400 .82rem/1.5 var(--mono);color:var(--mute);margin:.3rem 0 .9rem}
+label{display:block;font-weight:700;font-size:.95rem;margin:.9rem 0 .3rem}
+.field,textarea,select{width:100%;min-height:48px;border-radius:10px;border:2px solid var(--ink);background:#fff;padding:.6rem .8rem;font:inherit;font-size:1rem;color:var(--ink)}
+textarea{min-height:5.2rem;resize:vertical;line-height:1.45}
+.field::placeholder,textarea::placeholder{color:#8a8072}
+.rows{display:grid;gap:.7rem;margin-top:.4rem}
+.rowx{display:grid;grid-template-columns:1fr 7.2rem 48px;gap:.5rem;align-items:center}
+.rowx .field{min-width:0}
+.rm{width:48px;height:48px;border-radius:50%;border:2px solid var(--ink);background:transparent;font-size:1.3rem;line-height:1}
+.rm:hover{background:var(--tomato);border-color:var(--tomato);color:#fff}
+.faq{display:grid;gap:.4rem;padding:.9rem;border:2px dashed #14110f66;border-radius:12px;position:relative}
+.faq label{margin:.3rem 0 .2rem}
+.faq .rm{justify-self:end}
+.add{margin-top:.8rem}
+.side .chat{height:30rem;border-radius:22px;overflow:hidden;border:2px solid var(--ink);margin-bottom:1rem}
+.panel{background:var(--paper2);border-radius:14px;padding:1rem 1.1rem;margin-bottom:1rem}
+.panel h2{font:600 .75rem var(--mono);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem}
+.issues{list-style:none;padding:0;display:grid;gap:.4rem;font-size:.92rem}
+.issues li{padding-left:1.4rem;position:relative}
+.issues li::before{content:"✕";position:absolute;left:0;color:var(--tomato-d);font-weight:800}
+.issues li.w::before{content:"!";color:#8a6100}
+.issues li.ok::before{content:"✓";color:var(--teal)}
+.linkbox{display:grid;gap:.6rem}
+.linkbox input{font:400 .8rem var(--mono);overflow:hidden;text-overflow:ellipsis}
+.linkbox .row{display:flex;flex-wrap:wrap;gap:.5rem}
+.status{font:600 .85rem var(--mono);min-height:1.3rem;color:var(--teal)}.status.err{color:var(--tomato-d)}
+.queue{list-style:none;padding:0;display:grid;gap:.5rem}
+.queue li{display:flex;gap:.6rem;align-items:center;justify-content:space-between;font-size:.92rem}
+.queue li span{overflow-wrap:anywhere}
+.queue .btn{flex:none}
+.small{font:400 .78rem/1.6 var(--mono);color:var(--mute)}
+footer.f{padding:2rem 0 3rem;border-top:3px solid var(--ink);font:400 .78rem/1.7 var(--mono);color:var(--mute)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media(max-width:480px){.rowx{grid-template-columns:1fr 6rem 44px}.rm{width:44px;height:44px}}
+</style>
+</head>
+<body class="cust">
+<main class="chat" id="chat" aria-label="Atendimento automático">
+  <header>
+    <span class="av" id="av" aria-hidden="true">·</span>
+    <div><b id="biz">Carregando…</b><span>assistente automático · sem IA</span></div>
+    <a class="btn mini wa hide" id="wa-top" target="_blank" rel="noopener">WhatsApp</a>
+  </header>
+  <div class="log" id="log" role="log" aria-live="polite" aria-label="Conversa"></div>
+  <div class="chips" id="chips" aria-label="Sugestões de perguntas"></div>
+  <form id="form" autocomplete="off">
+    <label class="sr" for="msg">Sua mensagem</label>
+    <input id="msg" type="text" placeholder="Escreva sua mensagem…" maxlength="200" enterkeyhint="send" disabled>
+    <button class="btn" type="submit" disabled>Enviar</button>
+  </form>
+  <p class="foot" id="foot">Respostas automáticas, feitas no seu aparelho: nada da conversa é enviado a servidor. Para falar com uma pessoa, use o botão do WhatsApp.<br>Feito com <a href="index.html" id="made">freguesbot</a>, código aberto.</p>
+</main>
+<script>window.FREGUES_TOKEN="eyJ2IjoxLCJuIjoiU3R1ZGlvIEJlbGEiLCJoIjoiVGVyw6dhIGEgc8OhYmFkbywgZGFzIDloIMOgcyAxOWguIERvbWluZ28gZSBzZWd1bmRhIGZlY2hhZG8uIiwiZSI6IlJ1YSBkYXMgUGFsbWVpcmFzLCA4NSwgQ2VudHJvIiwicCI6IkFjZWl0YW1vcyBQaXgsIGNhcnTDo28gZGUgZMOpYml0byBlIGNyw6lkaXRvIGUgZGluaGVpcm8uIiwicyI6W1sibWFuaWN1cmUiLCIzNSJdLFsicGVkaWN1cmUiLCI0MCJdLFsidW5oYSBlbSBnZWwiLCIxMjAiXSxbImRlc2lnbiBkZSBzb2JyYW5jZWxoYSIsIjMwLDUwIl1dLCJmIjpbWyJ0ZW0gZXN0YWNpb25hbWVudG9cbm9uZGUgZXN0YWNpb25vXG50ZW0gdmFnYSBkZSBjYXJybyIsIlRlbW9zIGVzdGFjaW9uYW1lbnRvIGdyYXR1aXRvIG5hIGZyZW50ZSBkbyBzdHVkaW8uIl1dfQ"</script>
+<script>// Kit do atendente: transforma o formulário do dono numa config para o bot (bot.js),
+// e leva essa config dentro do link (#c=...), sem servidor. Testado em docs/kit.test.mjs.
+(function (root) {
+  const LIM = { nome: 60, texto: 300, resp: 500, perg: 400, servicos: 30, faqs: 20, linhas: 8 };
+  const VAZIO = () => ({ nome: "", horario: "", endereco: "", pagamento: "", whats: "", handoff: "", servicos: [], faqs: [] });
+
+  const EXEMPLO = () => ({
+    nome: "Studio Bela",
+    horario: "Terça a sábado, das 9h às 19h. Domingo e segunda fechado.",
+    endereco: "Rua das Palmeiras, 85, Centro",
+    pagamento: "Aceitamos Pix, cartão de débito e crédito e dinheiro.",
+    whats: "",
+    handoff: "",
+    servicos: [{ nome: "manicure", preco: "35" }, { nome: "pedicure", preco: "40" }, { nome: "unha em gel", preco: "120" }, { nome: "design de sobrancelha", preco: "30,50" }],
+    faqs: [{ perguntas: "tem estacionamento\nonde estaciono\ntem vaga de carro", resposta: "Temos estacionamento gratuito na frente do studio." }],
+  });
+
+  const clamp = (s, n) => String(s == null ? "" : s).replace(/\s+/g, " ").trim().slice(0, n);
+
+  function parsePreco(v) {
+    let s = String(v == null ? "" : v).replace(/R\$|\s/gi, "");
+    if (!s) return null;
+    s = s.includes(",") ? s.replace(/\./g, "").replace(",", ".") : s;
+    if (!/^\d+(\.\d{1,2})?$/.test(s)) return null;
+    const n = parseFloat(s);
+    return n >= 0 && n < 1e6 ? n : null;
+  }
+  const brl = (n) => "R$ " + (Number.isInteger(n) ? String(n) : n.toFixed(2).replace(".", ","));
+
+  function normWhats(v) {
+    const d = String(v || "").replace(/\D/g, "");
+    if (/^\d{10,11}$/.test(d)) return "55" + d;
+    if (/^55\d{10,11}$/.test(d)) return d;
+    return "";
+  }
+  const waLink = (whats, texto) => {
+    const n = normWhats(whats);
+    return n ? "https://wa.me/" + n + "?text=" + encodeURIComponent(texto) : "";
+  };
+
+  function servicosValidos(form) {
+    const vistos = new Set(), out = [];
+    for (const s of form.servicos || []) {
+      const nome = clamp(s && s.nome, LIM.nome).toLowerCase(), p = parsePreco(s && s.preco);
+      if (!nome || p === null || nome === "__proto__" || vistos.has(nome)) continue;
+      vistos.add(nome); out.push([nome, p]);
+    }
+    return out.slice(0, LIM.servicos);
+  }
+  const linhas = (t) => String(t || "").split(/\n/).map((x) => clamp(x, 120)).filter(Boolean).slice(0, LIM.linhas);
+
+  function validate(form) {
+    const errors = [], warnings = [];
+    if (!clamp(form.nome, LIM.nome)) errors.push("Falta o nome do negócio.");
+    const dadosServ = (form.servicos || []).filter((s) => s && (clamp(s.nome, 5) || clamp(s.preco, 5)));
+    const validos = servicosValidos(form);
+    if (!validos.length) errors.push("Cadastre pelo menos um serviço com nome e preço (ex.: corte, 40).");
+    else if (validos.length < dadosServ.length) warnings.push("Algum serviço ficou de fora: confira se tem nome, preço em números e se não repete.");
+    if (!normWhats(form.whats)) warnings.push(clamp(form.whats, 20) ? "O WhatsApp parece incompleto (use DDD + número)." : "Sem WhatsApp, o cliente não tem como chegar até você quando o bot não souber. Coloque o seu.");
+    if (!clamp(form.horario, LIM.texto)) warnings.push("Sem horário: perguntas sobre horário vão direto para você.");
+    if (!clamp(form.endereco, LIM.texto)) warnings.push("Sem endereço: perguntas sobre onde fica vão direto para você.");
+    (form.faqs || []).forEach((f, i) => {
+      const ex = linhas(f && f.perguntas).length, tem = clamp(f && f.resposta, LIM.resp);
+      if ((ex || tem) && (!ex || !tem)) warnings.push(`Pergunta extra ${i + 1}: faltou ${ex ? "a resposta" : "escrever como o cliente pergunta"}.`);
+      else if (ex === 1) warnings.push(`Pergunta extra ${i + 1}: com 3 jeitos de perguntar o bot acerta mais.`);
+    });
+    return { errors, warnings };
+  }
+
+  const comServico = (serv, moldes) => serv.flatMap(([nome]) => moldes.map((m) => m.replace("{s}", nome)));
+
+  function buildConfig(form) {
+    const serv = servicosValidos(form);
+    const nome = clamp(form.nome, LIM.nome);
+    const whats = normWhats(form.whats);
+    const handoff = clamp(form.handoff, 200) ||
+      (whats ? "Essa eu prefiro deixar com uma pessoa da equipe. Toque em “Falar no WhatsApp” que eu já levo a sua dúvida."
+             : `Essa eu não sei responder. Fale direto com a equipe da ${nome}.`);
+    const horario = clamp(form.horario, LIM.texto), endereco = clamp(form.endereco, LIM.texto), pagamento = clamp(form.pagamento, LIM.texto);
+    const tabela = "Nossos preços: " + serv.map(([n, p]) => `${n}: ${brl(p)}`).join("; ") + ".";
+
+    const intents = {
+      saudacao: { examples: ["oi", "ola", "bom dia", "boa tarde", "boa noite", "e ai", "opa tudo bem", "tudo bem", "oi tudo bem", "ola tudo bem"],
+                  answers: [`Olá! Sou o assistente da ${nome}. Posso ajudar com preços, horários, endereço ou agendamento.`] },
+      preco: { examples: ["quanto custa", "o valor", "o preco", "quanto cobra", "os precos", "valores", "tabela de precos", "quanto fica", "quanto sai", "preco dos servicos"]
+                 .concat(comServico(serv, ["quanto custa {s}", "valor do {s}", "quanto fica {s}"])),
+               answers: [tabela] },
+      servicos: { examples: ["quais servicos voces fazem", "o que voces oferecem", "o que voces fazem", "quais os servicos"].concat(comServico(serv, ["fazem {s}", "tem {s}", "voces fazem {s}"])),
+                  answers: [`Nossos serviços: ${serv.map(([n]) => n).join(", ")}.`] },
+      agendar: { examples: ["quero agendar", "quero marcar", "tem vaga hoje", "da pra marcar para amanha", "queria agendar", "tem vaga livre", "quero reservar", "queria marcar um atendimento", "tem encaixe"]
+                   .concat(comServico(serv, ["quero marcar {s}", "quero agendar {s}"])),
+                 answers: [] },
+      cancelar: { examples: ["quero cancelar meu horario", "preciso desmarcar", "nao vou poder ir", "remarcar meu horario", "cancelar agendamento"], answers: [] },
+      humano: { examples: ["quero falar com atendente", "falar com uma pessoa", "chama o dono", "preciso de um humano", "quero falar com alguem"], answers: [] },
+      agradecimento: { examples: ["obrigado", "valeu", "muito obrigado", "obrigada pela ajuda", "show valeu", "ok obrigado"], answers: ["Por nada! Qualquer coisa é só chamar.", "Disponha! Até a próxima."] },
+    };
+    if (horario) intents.horario = { examples: ["que horas abre", "horario de funcionamento", "ate que horas funciona", "voces abrem sabado", "abre domingo", "esta aberto agora", "horario de atendimento", "que horas fecha", "abre hoje", "abrem feriado"], answers: [`Nosso horário: ${horario}`] };
+    if (endereco) intents.endereco = { examples: ["onde fica", "o endereco", "chego ai", "a localizacao", "em que rua fica", "localizacao de voces", "onde voces ficam", "endereco de voces"], answers: [`Estamos na ${endereco}`] };
+    if (pagamento) intents.pagamento = { examples: ["aceita pix", "aceita cartao", "formas de pagamento", "pode pagar no cartao", "tem pix", "parcela no credito", "aceita dinheiro", "aceita debito", "formas de pagar"], answers: [pagamento] };
+
+    let n = 0;
+    for (const f of form.faqs || []) {
+      const ex = linhas(f && f.perguntas), resp = clamp(f && f.resposta, LIM.resp);
+      if (ex.length && resp && n < LIM.faqs) intents["faq_" + ++n] = { examples: ex, answers: [resp] };
+    }
+
+    const labels = { saudacao: "cumprimento", preco: "preços", servicos: "serviços", agendar: "agendamento", cancelar: "cancelamento", humano: "falar com uma pessoa", agradecimento: "agradecimento", horario: "horário", endereco: "endereço", pagamento: "formas de pagamento" };
+    Object.keys(intents).filter((k) => k.startsWith("faq_")).forEach((k) => { labels[k] = intents[k].examples[0]; });
+
+    const data = { horario, endereco, pagamento, servicos: Object.fromEntries(serv) };
+    return { business: nome, owner_handoff: handoff, labels, data, intents };
+  }
+
+  // ---- link: formulário → texto curto → formulário ----
+  function pack(form) {
+    const o = { v: 1, n: clamp(form.nome, LIM.nome) };
+    for (const [k, c, lim] of [["h", "horario", LIM.texto], ["e", "endereco", LIM.texto], ["p", "pagamento", LIM.texto], ["w", "whats", 20], ["o", "handoff", 200]]) {
+      const v = clamp(form[c], lim); if (v) o[k] = v;
+    }
+    o.s = (form.servicos || []).filter((s) => s && clamp(s.nome, 1)).slice(0, LIM.servicos).map((s) => [clamp(s.nome, LIM.nome), clamp(s.preco, 12)]);
+    const f = (form.faqs || []).map((q) => [linhas(q && q.perguntas).join("\n"), clamp(q && q.resposta, LIM.resp)]).filter((q) => q[0] && q[1]).slice(0, LIM.faqs);
+    if (f.length) o.f = f;
+    return o;
+  }
+  function unpack(o) {
+    if (!o || typeof o !== "object" || o.v !== 1) return null;
+    const f = VAZIO();
+    f.nome = clamp(o.n, LIM.nome); f.horario = clamp(o.h, LIM.texto); f.endereco = clamp(o.e, LIM.texto);
+    f.pagamento = clamp(o.p, LIM.texto); f.whats = clamp(o.w, 20); f.handoff = clamp(o.o, 200);
+    f.servicos = (Array.isArray(o.s) ? o.s : []).slice(0, LIM.servicos).map((s) => ({ nome: clamp(s && s[0], LIM.nome), preco: clamp(s && s[1], 12) }));
+    f.faqs = (Array.isArray(o.f) ? o.f : []).slice(0, LIM.faqs).map((q) => ({ perguntas: linhas(q && q[0]).join("\n"), resposta: clamp(q && q[1], LIM.resp) }));
+    return f;
+  }
+  const b64 = {
+    enc(str) { const by = new TextEncoder().encode(str); let s = ""; by.forEach((b) => (s += String.fromCharCode(b))); return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); },
+    dec(t) { const s = atob(t.replace(/-/g, "+").replace(/_/g, "/")); return new TextDecoder().decode(Uint8Array.from(s, (c) => c.charCodeAt(0))); },
+  };
+  const encodeForm = (form) => b64.enc(JSON.stringify(pack(form)));
+  function decodeForm(token) {
+    try { return unpack(JSON.parse(b64.dec(String(token || "")))); } catch (e) { return null; }
+  }
+
+  const api = { LIM, VAZIO, EXEMPLO, parsePreco, brl, normWhats, waLink, validate, buildConfig, encodeForm, decodeForm };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.FreguesKit = api;
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>// Porta em JavaScript do atendimento (bots/support): mesmo método, roda no navegador. Sem LLM, sem rede.
+// A equivalência com o Python é verificada por docs/bot.test.mjs contra tests/parity_fixture.json.
+(function (root) {
+  const ABBR = { vc: "voce", vcs: "voces", qto: "quanto", qnto: "quanto", q: "que", tb: "tambem", pq: "porque", hj: "hoje", amanha: "amanha", blz: "beleza", obg: "obrigado", vlw: "valeu", td: "tudo", pra: "para", ta: "esta", tah: "esta", to: "estou", pix: "pix", msg: "mensagem", hr: "hora", hrs: "horas" };
+  const STOP = new Set("o a os as um uma de do da dos das e eh em no na para por me meu minha ai la voce voces".split(" "));
+  const CONCEPTS = {
+    c_preco: "preco valor valores custa custo custos cobra cobram cobrar tabela quanto",
+    c_horario: "horario horarios abre abrem fecha fecham funciona funcionam funcionamento aberto aberta expediente",
+    c_endereco: "endereco onde fica ficam localizacao rua chego chegar mapa",
+    c_pagamento: "pagamento pagamentos pagar paga pague cartao pix credito debito dinheiro parcela parcelar aceita aceitam",
+    c_servico: "servico servicos fazem fazer oferece oferecem trabalham",
+    c_agendar: "agendar agendamento marcar marca reservar vaga vagas",
+  };
+  const CONCEPT = {};
+  for (const [c, ws] of Object.entries(CONCEPTS)) for (const w of ws.split(" ")) CONCEPT[w] = c;
+
+  const stripAccents = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
+  const stem = (t) => (t.length > 4 && t.endsWith("s") && !t.endsWith("ss") ? t.slice(0, -1) : t);
+
+  function normalize(text) {
+    let t = stripAccents(text.toLowerCase()).replace(/(.)\1{2,}/g, "$1");
+    let toks = t.match(/[a-z0-9]+/g) || [];
+    toks = toks.map((x) => (Object.prototype.hasOwnProperty.call(ABBR, x) ? ABBR[x] : x));
+    toks = toks.map((x) => CONCEPT[x] || CONCEPT[stem(x)] || stem(x));
+    return toks.filter((x) => !STOP.has(x));
+  }
+
+  // ---- difflib.SequenceMatcher.ratio (Ratcliff/Obershelp), para corrigir erros de digitação ----
+  function ratio(a, b) {
+    let matched = 0;
+    (function walk(alo, ahi, blo, bhi) {
+      let bi = alo, bj = blo, bk = 0;
+      for (let i = alo; i < ahi; i++)
+        for (let j = blo; j < bhi; j++) {
+          let k = 0;
+          while (i + k < ahi && j + k < bhi && a[i + k] === b[j + k]) k++;
+          if (k > bk) { bi = i; bj = j; bk = k; }
+        }
+      if (!bk) return;
+      matched += bk;
+      if (alo < bi && blo < bj) walk(alo, bi, blo, bj);
+      if (bi + bk < ahi && bj + bk < bhi) walk(bi + bk, ahi, bj + bk, bhi);
+    })(0, a.length, 0, b.length);
+    return a.length + b.length ? (2 * matched) / (a.length + b.length) : 1;
+  }
+  function closest(word, candidates, cutoff) {
+    let best = null;
+    for (const x of candidates) {
+      const s = ratio(x, word);
+      if (s >= cutoff && (!best || s > best[0] || (s === best[0] && x > best[1]))) best = [s, x];
+    }
+    return best && best[1];
+  }
+
+  const feat = (toks) => toks.concat(toks.slice(1).map((b, i) => toks[i] + "_" + b));
+
+  class Classifier {
+    constructor(examples) {
+      this.docs = [];
+      for (const intent of Object.keys(examples)) for (const e of examples[intent]) this.docs.push([intent, feat(normalize(e))]);
+      this.vocab = new Set();
+      const df = new Map();
+      for (const [, toks] of this.docs) {
+        toks.forEach((t) => this.vocab.add(t));
+        new Set(toks).forEach((t) => df.set(t, (df.get(t) || 0) + 1));
+      }
+      this.uni = [...this.vocab].filter((v) => !v.includes("_"));
+      this.uniSet = new Set(this.uni);
+      const n = this.docs.length;
+      this.idf = new Map([...df].map(([t, f]) => [t, Math.log(1 + n / f)]));
+      this.vecs = this.docs.map(([i, toks]) => [i, this.vec(toks)]);
+    }
+    fix(toks) {
+      return toks.map((t) => (this.uniSet.has(t) || t.length < 4 ? t : closest(t, this.uni, 0.8) || t));
+    }
+    vec(feats) {
+      const c = new Map();
+      feats.forEach((t) => c.set(t, (c.get(t) || 0) + 1));
+      const v = new Map();
+      for (const [t, f] of c) if (this.idf.has(t)) v.set(t, (1 + Math.log(f)) * this.idf.get(t));
+      let sum = 0;
+      for (const x of v.values()) sum += x * x;
+      const norm = Math.sqrt(sum) || 1;
+      for (const [t, x] of v) v.set(t, x / norm);
+      return v;
+    }
+    tokens(text) { return this.fix(normalize(text)); }
+    rank(text) {
+      const q = this.vec(feat(this.tokens(text)));
+      const best = new Map();
+      for (const [intent, v] of this.vecs) {
+        let s = 0;
+        for (const [t, w] of q) s += w * (v.get(t) || 0);
+        if (s > (best.get(intent) || 0)) best.set(intent, s);
+      }
+      return [...best].sort((a, b) => b[1] - a[1]);
+    }
+  }
+
+  // ---- extração de dados da mensagem ----
+  const DAYS = { hoje: "hoje", amanha: "amanhã", segunda: "segunda", terca: "terça", quarta: "quarta", quinta: "quinta", sexta: "sexta", sabado: "sábado", domingo: "domingo" };
+  function extractDay(text) {
+    const t = stripAccents(text.toLowerCase());
+    for (const [k, v] of Object.entries(DAYS)) if (new RegExp("\\b" + k + "\\b").test(t)) return v;
+    const m = t.match(/\b(\d{1,2})\/(\d{1,2})\b/);
+    return m ? String(+m[1]).padStart(2, "0") + "/" + String(+m[2]).padStart(2, "0") : null;
+  }
+  function extractTime(text) {
+    const t = stripAccents(text.toLowerCase());
+    const m = t.match(/\b([01]?\d|2[0-3])\s*(?::|h)\s*([0-5]\d)?\b/) || t.match(/\bas\s+([01]?\d|2[0-3])\b(?!\/)/);
+    if (!m) return null;
+    return String(+m[1]).padStart(2, "0") + ":" + String(m[2] ? +m[2] : 0).padStart(2, "0");
+  }
+  function extractService(text, services) {
+    const t = stripAccents(text.toLowerCase());
+    for (const s of [...services].sort((a, b) => b.length - a.length)) if (t.includes(stripAccents(s))) return s;
+    const singles = services.filter((s) => !s.includes(" ")).map(stripAccents);
+    for (const w of t.match(/[a-z]+/g) || []) {
+      const m = closest(w, singles, 0.8);
+      if (m) return services.find((s) => stripAccents(s) === m);
+    }
+    return null;
+  }
+
+  // ---- motor de conversa ----
+  const COMPLAINT = /reclam|ruim|pessim|horrivel|insatisf|decepcion|absurd|problema|errado|reembolso|procon|processo|nunca mais|demor/i;
+  const REQUIRED = ["servico", "dia", "hora"];
+  const ASK = { servico: "Qual serviço você quer? ({lista})", dia: "Para qual dia?", hora: "Qual horário prefere?" };
+
+  class Bot {
+    constructor(config, opts = {}) {
+      this.cfg = config;
+      this.threshold = opts.threshold ?? 0.55; this.margin = opts.margin ?? 0.08;
+      this.minConf = opts.minConf ?? 0.35; this.minGap = opts.minGap ?? 0.15;
+      this.cls = new Classifier(Object.fromEntries(Object.entries(config.intents).map(([k, v]) => [k, v.examples])));
+      this.services = Object.keys(config.data.servicos);
+      this.onUnanswered = opts.onUnanswered || (() => {});
+    }
+    label(intent) { return (this.cfg.labels && this.cfg.labels[intent]) || intent; }
+    static newSession() { return { state: "idle", slots: {} }; }
+    fmt(text) {
+      const d = this.cfg.data;
+      const tabela = "Nossos preços: " + Object.entries(d.servicos).map(([k, v]) => `${k}: R$ ${v}`).join("; ") + ".";
+      return text.replace("{business}", this.cfg.business).replace("{tabela}", tabela).replace("{lista_servicos}", this.services.join(", "))
+        .replace("{horario}", d.horario).replace("{endereco}", d.endereco).replace("{pagamento}", d.pagamento);
+    }
+    intentText(text) {
+      const t = stripAccents(text);
+      return t.replace(/\b(hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo)\b/gi, " ")
+        .replace(/\b(?:as)?\s*\d{1,2}\s*(?::|h)\s*\d{0,2}|\b\d{1,2}\/\d{1,2}\b/gi, " ");
+    }
+    confident(ranked) {
+      if (!ranked.length) return false;
+      const conf = ranked[0][1], gap = conf - (ranked[1] ? ranked[1][1] : 0);
+      return conf >= this.threshold || (conf >= this.minConf && gap >= this.minGap);
+    }
+    handoff(question, why, conf, dbg) {
+      this.onUnanswered(question);
+      return { text: this.cfg.owner_handoff, intent: why, confidence: conf, handoff: true, booking: null, decision: "handoff", ...dbg };
+    }
+    fill(text, s) {
+      const found = { servico: extractService(text, this.services), dia: extractDay(text), hora: extractTime(text) };
+      for (const [k, v] of Object.entries(found)) if (v) s.slots[k] = v;
+    }
+    bookingStep(s, conf, dbg) {
+      const missing = REQUIRED.filter((k) => !(k in s.slots));
+      if (missing.length) return { text: ASK[missing[0]].replace("{lista}", this.services.join(", ")), intent: "agendar", confidence: conf, handoff: false, booking: null, decision: "booking-step", ...dbg };
+      const b = { ...s.slots };
+      s.state = "idle"; s.slots = {};
+      return { text: `Pedido de agendamento: ${b.servico}, ${b.dia} às ${b.hora}. Um atendente vai confirmar a disponibilidade por aqui.`, intent: "agendar", confidence: conf, handoff: false, booking: b, decision: "booking-done", ...dbg };
+    }
+    reply(text, s) {
+      const dbg = { tokens: this.cls.tokens(this.intentText(text)), ranked: [] };
+      if (COMPLAINT.test(stripAccents(text))) { s.state = "idle"; s.slots = {}; return this.handoff(text, "reclamacao", 1.0, dbg); }
+      const ranked = this.cls.rank(this.intentText(text));
+      dbg.ranked = ranked.slice(0, 3);
+      const [top, conf] = ranked[0] || ["", 0.0];
+      if (s.state === "booking") {
+        this.fill(text, s);
+        if ((top === "cancelar" || top === "humano") && conf >= this.threshold) { s.state = "idle"; s.slots = {}; }
+        else if (REQUIRED.some((k) => k in s.slots) && (!this.confident(ranked) || top === "agendar")) return this.bookingStep(s, conf, dbg);
+      }
+      if (!ranked.length || !this.confident(ranked)) return this.handoff(text, "desconhecido", conf, dbg);
+      if (ranked.length > 1 && ranked[1][1] >= conf - this.margin && ranked[1][0] !== top && conf < 0.8)
+        return { text: `Só para entender: você quer saber sobre ${this.label(top)} ou ${this.label(ranked[1][0])}?`, intent: "ambiguo", confidence: conf, handoff: false, booking: null, decision: "clarify", ...dbg };
+      if (top === "agendar") { s.state = "booking"; this.fill(text, s); return this.bookingStep(s, conf, dbg); }
+      if (top === "humano" || top === "cancelar") return this.handoff(text, top, conf, dbg);
+      const answers = this.cfg.intents[top].answers;
+      return { text: this.fmt(answers[Math.floor(Math.random() * answers.length)]), intent: top, confidence: conf, handoff: false, booking: null, decision: "answer", ...dbg };
+    }
+  }
+
+  const api = { Bot, Classifier, normalize, ratio, extractDay, extractTime, extractService };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.FreguesBot = api;
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>// Janela de conversa usada pelo montador (teste) e pela página do cliente.
+// Tudo textContent: nada vindo de config ou de link é interpretado como HTML.
+(function (root) {
+  const reduced = () => typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function create(els, opts = {}) {
+    const { log, form, input, chips } = els;
+    const send = form.querySelector("button[type=submit]");
+    let bot = null, session = null, meta = { nome: "", whats: "" }, busy = false;
+
+    function bubble(cls, text, label) {
+      const d = document.createElement("div");
+      d.className = "msg " + cls;
+      if (label) { const s = document.createElement("small"); s.textContent = label; d.append(s); }
+      d.append(document.createTextNode(text));
+      log.append(d);
+      log.scrollTop = log.scrollHeight;
+      return d;
+    }
+    function waButton(host, text, label) {
+      const href = FreguesKit.waLink(meta.whats, text);
+      if (!href) return;
+      const a = document.createElement("a");
+      a.className = "btn mini wa"; a.href = href; a.target = "_blank"; a.rel = "noopener";
+      a.textContent = label;
+      host.append(a);
+      log.scrollTop = log.scrollHeight;
+    }
+    function enable(on) { input.disabled = !on; send.disabled = !on; }
+
+    function setChips(list) {
+      if (!chips) return;
+      chips.replaceChildren(...list.map((t) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.textContent = t;
+        b.addEventListener("click", () => ask(t));
+        return b;
+      }));
+    }
+
+    async function ask(text) {
+      text = text.trim().slice(0, 200);
+      if (!text || busy || !bot) return;
+      busy = true;
+      bubble("me", text);
+      input.value = "";
+      const typing = bubble("bot", "");
+      if (reduced()) typing.textContent = "digitando…";
+      else { const d = document.createElement("span"); d.className = "dots"; d.setAttribute("aria-label", "digitando"); d.innerHTML = "<i></i><i></i><i></i>"; typing.append(d); }
+      const r = bot.reply(text, session);
+      await new Promise((ok) => setTimeout(ok, reduced() ? 0 : Math.min(800, 320 + r.text.length * 5)));
+      typing.remove();
+      if (r.booking) {
+        const b = r.booking, resumo = `${b.servico}, ${b.dia} às ${b.hora}`;
+        const m = bubble("bot", meta.whats
+          ? `Anotei: ${resumo}. Para confirmar a disponibilidade, mande este pedido para a ${meta.nome} pelo WhatsApp:`
+          : `Anotei: ${resumo}. Atenção: este atendimento não envia nada sozinho. Fale direto com a ${meta.nome} para confirmar.`);
+        waButton(m, `Olá! Quero agendar: ${resumo}. (pedido feito pelo assistente da ${meta.nome})`, "Enviar pedido no WhatsApp");
+      } else if (r.handoff) {
+        const m = bubble("human", r.text, "chamou uma pessoa");
+        waButton(m, `Olá! Vim pelo atendimento automático da ${meta.nome}. Minha dúvida: ${text}`, "Falar no WhatsApp");
+      } else bubble("bot", r.text);
+      if (opts.onReply) opts.onReply(r, text);
+      busy = false;
+      if (typeof matchMedia === "function" && matchMedia("(hover:hover)").matches) input.focus();
+    }
+
+    form.addEventListener("submit", (e) => { e.preventDefault(); ask(input.value); });
+
+    return {
+      // novo bot (ex.: o dono mexeu no formulário); mantém a conversa na tela
+      setBot(newBot, m) {
+        bot = newBot; meta = m; session = root.FreguesBot.Bot.newSession(); busy = false;
+        enable(true);
+        if (!log.children.length) bubble("bot", bot.cfg.intents.saudacao.answers[0]);
+      },
+      off(msg) { bot = null; enable(false); log.replaceChildren(); bubble("sys", msg); },
+      setChips, ask,
+    };
+  }
+  root.FreguesChat = { create };
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>(function () {
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  const token = window.FREGUES_TOKEN || (location.hash.match(/[#&]c=([\w-]+)/) || [])[1];
+  const form = FreguesKit.decodeForm(token);
+  const log = $("#log");
+
+  function fail(msg) {
+    $("#biz").textContent = "Link inválido";
+    $("#av").textContent = "!";
+    const d = document.createElement("div");
+    d.className = "msg bot";
+    d.append(document.createTextNode(msg + " "));
+    const a = document.createElement("a");
+    a.href = "montar.html"; a.textContent = "Monte o seu atendente";
+    d.append(a, document.createTextNode("."));
+    log.append(d);
+    $("#chips").classList.add("hide");
+    $("#form").classList.add("hide");
+  }
+
+  if (!form) return fail("Este link está incompleto ou foi cortado ao ser copiado.");
+  const { errors } = FreguesKit.validate(form);
+  if (errors.length) return fail("Este atendimento ainda não foi configurado direito.");
+
+  const cfg = FreguesKit.buildConfig(form);
+  const bot = new FreguesBot.Bot(cfg);
+  const whats = FreguesKit.normWhats(form.whats);
+
+  document.title = cfg.business + " · atendimento";
+  $("#biz").textContent = cfg.business;
+  $("#av").textContent = [...cfg.business][0].toUpperCase();
+  if (window.FREGUES_TOKEN) $("#made").href = "https://github.com/thiagollipe-web/freguesbot";
+  if (whats) {
+    const a = $("#wa-top");
+    a.href = FreguesKit.waLink(whats, `Olá! Vim pelo atendimento automático da ${cfg.business}.`);
+    a.classList.remove("hide");
+  }
+
+  const chat = FreguesChat.create({ log, form: $("#form"), input: $("#msg"), chips: $("#chips") });
+  chat.setBot(bot, { nome: cfg.business, whats });
+  const ask = [["preco", "Quanto custa?"], ["horario", "Que horas abre?"], ["endereco", "Onde fica?"], ["pagamento", "Aceita Pix?"], ["agendar", "Quero agendar"]];
+  chat.setChips(ask.filter(([k]) => cfg.intents[k]).map(([, t]) => t));
+})();
+</script>
+</body>
+</html>

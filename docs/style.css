@@ -160,6 +160,18 @@ button{font:inherit;color:inherit;cursor:pointer}
 .owner ol{margin:.5rem 0 0 1.1rem;padding:0}
 .demo .note{margin-top:1.6rem;font-size:.95rem;color:#efe9dcb3;max-width:46rem}
 
+/* baixar */
+.make{padding-block:clamp(3.5rem,9vw,6rem);display:grid;gap:1rem;justify-items:start}
+.make h2{font:800 clamp(2rem,5.6vw,3.6rem)/1 var(--display);letter-spacing:-.045em;max-width:16ch}
+.make>p:not(.eyebrow){max-width:38rem;color:var(--ink2)}
+.get{list-style:none;padding:0;display:grid;gap:1rem;width:100%;margin-top:1rem}
+@media(min-width:760px){.get{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1100px){.get{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.get li{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;background:var(--receipt);padding:1.2rem 1.2rem 1.4rem;box-shadow:0 1px 0 #0001,0 14px 30px -18px #14110f55}
+.get b{font:600 .8rem var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.get p{color:var(--ink2);flex:1;font-size:.98rem}
+.get .btn{margin-top:.6rem}
+
 /* bots */
 .bots{padding-block:clamp(4rem,10vw,8rem)}
 .bots h2,.pay h2{font:800 clamp(2rem,5.6vw,4rem)/1 var(--display);letter-spacing:-.045em;margin:.8rem 0 2.4rem;max-width:16ch}

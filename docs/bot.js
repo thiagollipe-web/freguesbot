@@ -136,6 +136,7 @@
       this.services = Object.keys(config.data.servicos);
       this.onUnanswered = opts.onUnanswered || (() => {});
     }
+    label(intent) { return (this.cfg.labels && this.cfg.labels[intent]) || intent; }
     static newSession() { return { state: "idle", slots: {} }; }
     fmt(text) {
       const d = this.cfg.data;
@@ -181,7 +182,7 @@
       }
       if (!ranked.length || !this.confident(ranked)) return this.handoff(text, "desconhecido", conf, dbg);
       if (ranked.length > 1 && ranked[1][1] >= conf - this.margin && ranked[1][0] !== top && conf < 0.8)
-        return { text: `Só para entender: você quer saber sobre ${top} ou ${ranked[1][0]}?`, intent: "ambiguo", confidence: conf, handoff: false, booking: null, decision: "clarify", ...dbg };
+        return { text: `Só para entender: você quer saber sobre ${this.label(top)} ou ${this.label(ranked[1][0])}?`, intent: "ambiguo", confidence: conf, handoff: false, booking: null, decision: "clarify", ...dbg };
       if (top === "agendar") { s.state = "booking"; this.fill(text, s); return this.bookingStep(s, conf, dbg); }
       if (top === "humano" || top === "cancelar") return this.handoff(text, top, conf, dbg);
       const answers = this.cfg.intents[top].answers;

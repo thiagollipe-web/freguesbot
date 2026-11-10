@@ -5,6 +5,8 @@
   const cfg = window.FREGUESBOT || {};
 
   /* ---------- links do GitHub ---------- */
+  const zip = document.getElementById("zip");
+  if (zip) { if (cfg.repoUrl) zip.href = cfg.repoUrl + "/archive/refs/heads/main.zip"; else zip.classList.add("hide"); }
   ["gh-top", "gh-hero", "gh-pay", "gh-foot"].forEach((id) => {
     const a = document.getElementById(id);
     if (!a) return;

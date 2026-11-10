@@ -1,0 +1,104 @@
+/* Montador e atendimento do freguesbot. Autônomo: serve também dentro do arquivo .html baixado. */
+@font-face{font-family:"Bricolage";src:url(fonts/bricolage-grotesque-latin-wght-normal.woff2) format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Plex Mono";src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Plex Mono";src:url(fonts/ibm-plex-mono-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{--paper:#efe9dc;--paper2:#e4dccb;--ink:#14110f;--ink2:#25201c;--receipt:#fbf8f0;--tomato:#d6361c;--tomato-d:#b32a14;--mustard:#f0b429;--teal:#0f6b5c;--mute:#675e53;
+  --display:"Bricolage","Helvetica Neue",Arial,sans-serif;--mono:"Plex Mono",ui-monospace,Menlo,Consolas,monospace;--pad:clamp(1.1rem,4vw,3rem);--ease:cubic-bezier(.2,.7,.1,1)}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{background:var(--paper);color:var(--ink);font:400 1.0625rem/1.55 var(--display);overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:3px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hide{display:none!important}
+.eyebrow{font:600 .75rem/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;padding:.8rem 1.4rem;border-radius:999px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font:700 1rem var(--display);text-decoration:none;transition:background .2s,color .2s}
+.btn:hover{background:var(--tomato);border-color:var(--tomato)}
+.btn:disabled{opacity:.45;cursor:not-allowed}.btn:disabled:hover{background:var(--ink);border-color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}.btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn.mini{min-height:44px;padding:.5rem 1rem;font-size:.9rem}
+.btn.gold{background:var(--mustard);border-color:var(--mustard);color:var(--ink)}.btn.gold:hover{background:var(--paper);border-color:var(--ink)}
+.btn.wa{background:var(--teal);border-color:var(--teal);color:#fff}.btn.wa:hover{background:#0b5246;border-color:#0b5246}
+
+/* chat (claro): cliente e teste do dono */
+.chat{background:var(--paper);display:flex;flex-direction:column;min-height:0;min-width:0}
+.chat header{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:var(--ink);color:var(--paper)}
+.chat header>div{flex:1;min-width:0}
+.chat .av{flex:none;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--mustard);color:var(--ink);display:grid;place-items:center;font:800 1.1rem var(--display)}
+.chat header b{display:block;font-weight:700;line-height:1.15;overflow-wrap:anywhere}
+.chat header span:not(.av){font:400 .72rem var(--mono);color:#efe9dcb0}
+.log{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.7rem}
+.msg{max-width:86%;padding:.65rem .95rem;border-radius:18px;font-size:1rem;line-height:1.4;overflow-wrap:anywhere;animation:pop .25s var(--ease)}
+.msg.bot{background:var(--receipt);box-shadow:0 1px 0 #14110f22;border-bottom-left-radius:4px;align-self:flex-start}
+.msg.me{background:var(--mustard);border-bottom-right-radius:4px;align-self:flex-end}
+.msg.human{background:var(--receipt);box-shadow:0 1px 0 #14110f22;border-left:5px solid var(--tomato);align-self:flex-start}
+.msg small{display:block;font:600 .66rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tomato-d);margin-bottom:.2rem}
+.msg.sys{align-self:center;background:transparent;color:var(--mute);font:400 .8rem var(--mono);text-align:center;max-width:100%}
+.msg .btn{display:flex;margin-top:.6rem}
+.msg a:not(.btn){color:var(--tomato-d)}
+.dots{display:inline-flex;gap:.25rem;padding:.2rem 0}.dots i{width:.45rem;height:.45rem;border-radius:50%;background:var(--ink);opacity:.35;animation:blink 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:1}}@keyframes pop{from{opacity:0;transform:translateY(8px)}}
+.chips{display:flex;gap:.5rem;overflow-x:auto;padding:.6rem 1rem;scrollbar-width:thin}
+.chips:empty{display:none}
+.chips button{flex:none;min-height:44px;padding:.4rem .95rem;border-radius:999px;border:1.5px solid var(--ink);background:transparent;font:400 .85rem var(--mono);transition:background .2s,color .2s}
+.chips button:hover{background:var(--ink);color:var(--paper)}
+.chat form{display:flex;gap:.5rem;padding:.6rem 1rem 1rem}
+.chat input{flex:1;min-width:0;min-height:48px;border-radius:999px;border:2px solid var(--ink);background:var(--receipt);padding:0 1.1rem;font:inherit;font-size:1rem}
+.chat form .btn{background:var(--mustard);border-color:var(--mustard);color:var(--ink)}.chat form .btn:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chat .foot{font:400 .72rem/1.5 var(--mono);color:var(--mute);padding:0 1rem 1.2rem;text-align:center}
+
+/* página do cliente: ocupa a tela no celular, vira cartão no desktop */
+.cust{min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);place-items:stretch}
+.cust .chat{height:100dvh;max-width:560px;width:100%;margin:0 auto}
+@media(min-width:700px){.cust{padding:2rem 1rem;place-items:center}.cust .chat{height:min(46rem,calc(100dvh - 4rem));border-radius:28px;overflow:hidden;box-shadow:0 30px 60px -30px #14110f66;border:1px solid #14110f22}}
+
+/* montador */
+.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem var(--pad);background:color-mix(in srgb,var(--paper) 93%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid #14110f14}
+.logo{font:800 1.25rem/1 var(--display);letter-spacing:-.04em;text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.logo i{width:.7rem;height:.7rem;border-radius:50%;background:var(--tomato)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--pad)}
+.head{padding:clamp(2rem,6vw,4rem) 0 1.4rem}
+.head h1{font:800 clamp(2.1rem,7vw,3.8rem)/.98 var(--display);letter-spacing:-.045em;margin:.7rem 0 1rem;max-width:18ch;text-wrap:balance}
+.head p{max-width:40rem;color:var(--ink2)}
+.head .row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+.build{display:grid;grid-template-columns:minmax(0,1fr);gap:2rem;padding-bottom:4rem}
+@media(min-width:1000px){.build{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:3rem;align-items:start}.side{position:sticky;top:5rem}}
+fieldset{border:0;padding:0;min-width:0}
+.card{background:var(--receipt);padding:1.4rem 1.3rem 1.6rem;box-shadow:0 1px 0 #0001,0 14px 30px -18px #14110f55;margin-bottom:1.4rem;position:relative}
+.card legend{float:left;width:100%;font:600 .8rem var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:0 0 .9rem;margin-bottom:.4rem;border-bottom:2px dashed #14110f55}
+.card legend+*{clear:both}
+.hint{font:400 .82rem/1.5 var(--mono);color:var(--mute);margin:.3rem 0 .9rem}
+label{display:block;font-weight:700;font-size:.95rem;margin:.9rem 0 .3rem}
+.field,textarea,select{width:100%;min-height:48px;border-radius:10px;border:2px solid var(--ink);background:#fff;padding:.6rem .8rem;font:inherit;font-size:1rem;color:var(--ink)}
+textarea{min-height:5.2rem;resize:vertical;line-height:1.45}
+.field::placeholder,textarea::placeholder{color:#8a8072}
+.rows{display:grid;gap:.7rem;margin-top:.4rem}
+.rowx{display:grid;grid-template-columns:1fr 7.2rem 48px;gap:.5rem;align-items:center}
+.rowx .field{min-width:0}
+.rm{width:48px;height:48px;border-radius:50%;border:2px solid var(--ink);background:transparent;font-size:1.3rem;line-height:1}
+.rm:hover{background:var(--tomato);border-color:var(--tomato);color:#fff}
+.faq{display:grid;gap:.4rem;padding:.9rem;border:2px dashed #14110f66;border-radius:12px;position:relative}
+.faq label{margin:.3rem 0 .2rem}
+.faq .rm{justify-self:end}
+.add{margin-top:.8rem}
+.side .chat{height:30rem;border-radius:22px;overflow:hidden;border:2px solid var(--ink);margin-bottom:1rem}
+.panel{background:var(--paper2);border-radius:14px;padding:1rem 1.1rem;margin-bottom:1rem}
+.panel h2{font:600 .75rem var(--mono);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem}
+.issues{list-style:none;padding:0;display:grid;gap:.4rem;font-size:.92rem}
+.issues li{padding-left:1.4rem;position:relative}
+.issues li::before{content:"✕";position:absolute;left:0;color:var(--tomato-d);font-weight:800}
+.issues li.w::before{content:"!";color:#8a6100}
+.issues li.ok::before{content:"✓";color:var(--teal)}
+.linkbox{display:grid;gap:.6rem}
+.linkbox input{font:400 .8rem var(--mono);overflow:hidden;text-overflow:ellipsis}
+.linkbox .row{display:flex;flex-wrap:wrap;gap:.5rem}
+.status{font:600 .85rem var(--mono);min-height:1.3rem;color:var(--teal)}.status.err{color:var(--tomato-d)}
+.queue{list-style:none;padding:0;display:grid;gap:.5rem}
+.queue li{display:flex;gap:.6rem;align-items:center;justify-content:space-between;font-size:.92rem}
+.queue li span{overflow-wrap:anywhere}
+.queue .btn{flex:none}
+.small{font:400 .78rem/1.6 var(--mono);color:var(--mute)}
+footer.f{padding:2rem 0 3rem;border-top:3px solid var(--ink);font:400 .78rem/1.7 var(--mono);color:var(--mute)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media(max-width:480px){.rowx{grid-template-columns:1fr 6rem 44px}.rm{width:44px;height:44px}}

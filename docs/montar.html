@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Monte o atendente do seu negócio · freguesbot</title>
+<meta name="description" content="Preencha preços, horário e endereço e ganhe um link de atendimento para o seu WhatsApp e Instagram. Grátis, sem IA, sem cadastro e sem instalar nada.">
+<meta name="theme-color" content="#efe9dc">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="tool.css">
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="index.html" aria-label="freguesbot, página inicial"><i></i>freguesbot</a>
+  <a class="btn mini ghost" href="index.html">Voltar ao início</a>
+</header>
+<main class="wrap">
+  <section class="head" aria-labelledby="h1">
+    <p class="eyebrow">Grátis · sem cadastro · sem instalar nada</p>
+    <h1 id="h1">Monte o atendente do seu negócio.</h1>
+    <p>Preencha o que o cliente mais pergunta. Você ganha um <strong>link</strong> para colocar no Instagram e no WhatsApp: o bot responde preços, horário e endereço, anota pedidos de agendamento e, quando não sabe, manda o cliente para <strong>você</strong>. Nada fica em servidor: seus dados ficam neste navegador e dentro do link.</p>
+    <div class="row">
+      <button class="btn gold mini" type="button" id="ex">Ver um exemplo pronto</button>
+      <button class="btn ghost mini" type="button" id="clear">Limpar tudo</button>
+    </div>
+  </section>
+
+  <div class="build">
+    <form id="f" autocomplete="off" novalidate>
+      <fieldset class="card">
+        <legend>1 · Seu negócio</legend>
+        <label for="nome">Nome do negócio</label>
+        <input class="field" id="nome" data-f="nome" maxlength="60" placeholder="Ex.: Studio Bela">
+        <label for="whats">Seu WhatsApp (com DDD)</label>
+        <input class="field" id="whats" data-f="whats" inputmode="tel" maxlength="20" placeholder="Ex.: (11) 98765-4321">
+        <p class="hint">É para onde o cliente vai quando o bot não souber ou quando pedir um horário. Sem ele, o cliente fica sem saída.</p>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>2 · O que você vende</legend>
+        <p class="hint">Um serviço por linha, com o preço em números (30 ou 30,50).</p>
+        <div class="rows" id="serv"></div>
+        <button class="btn ghost mini add" type="button" id="addserv">+ Adicionar serviço</button>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>3 · Informações</legend>
+        <label for="horario">Horário de funcionamento</label>
+        <textarea id="horario" data-f="horario" maxlength="300" placeholder="Ex.: Terça a sábado, das 9h às 19h. Domingo e segunda fechado."></textarea>
+        <label for="endereco">Endereço</label>
+        <textarea id="endereco" data-f="endereco" maxlength="300" placeholder="Ex.: Rua das Palmeiras, 85, Centro"></textarea>
+        <label for="pagamento">Formas de pagamento</label>
+        <textarea id="pagamento" data-f="pagamento" maxlength="300" placeholder="Ex.: Aceitamos Pix, cartão de débito e crédito e dinheiro."></textarea>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>4 · Outras perguntas (opcional)</legend>
+        <p class="hint">Algo que clientes sempre perguntam e não está acima: estacionamento, se atende criança, se leva pet. Escreva uns 3 jeitos de perguntar, um por linha.</p>
+        <div class="rows" id="faqs"></div>
+        <button class="btn ghost mini add" type="button" id="addfaq">+ Adicionar pergunta</button>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>5 · Quando o bot não souber (opcional)</legend>
+        <label for="handoff">O que ele diz ao passar para você</label>
+        <textarea id="handoff" data-f="handoff" maxlength="200" placeholder="Deixe vazio para usar a frase padrão."></textarea>
+      </fieldset>
+    </form>
+
+    <aside class="side" aria-label="Teste e link">
+      <section class="chat" id="chat" aria-label="Teste do seu atendente">
+        <header><span class="av" id="av" aria-hidden="true">?</span><div><b id="biz">Seu negócio</b><span>teste ao vivo · assistente sem IA</span></div></header>
+        <div class="log" id="log" role="log" aria-live="polite" aria-label="Conversa de teste"></div>
+        <div class="chips" id="chips" aria-label="Sugestões"></div>
+        <form id="form" autocomplete="off">
+          <label class="sr" for="msg">Pergunte como um cliente</label>
+          <input id="msg" type="text" placeholder="Pergunte como um cliente…" maxlength="200" enterkeyhint="send" disabled>
+          <button class="btn" type="submit" disabled>Enviar</button>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="p1">
+        <h2 id="p1">O que falta</h2>
+        <ul class="issues" id="issues" aria-live="polite"></ul>
+      </section>
+
+      <section class="panel" id="queuebox" aria-labelledby="p2" hidden>
+        <h2 id="p2">O bot não soube responder</h2>
+        <p class="hint">Se for algo comum, ensine: vira uma pergunta extra.</p>
+        <ul class="queue" id="queue"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="p3">
+        <h2 id="p3">Seu link</h2>
+        <div class="linkbox" id="linkbox">
+          <label class="sr" for="link">Link do atendimento</label>
+          <input class="field" id="link" readonly>
+          <div class="row">
+            <button class="btn mini" type="button" id="copy">Copiar link</button>
+            <a class="btn ghost mini" id="open" target="_blank" rel="noopener">Abrir</a>
+            <button class="btn ghost mini" type="button" id="dl">Baixar como arquivo</button>
+          </div>
+          <p class="status" id="st" role="status"></p>
+          <p class="small">Cole o link na bio do Instagram, no WhatsApp Business ou num cartaz. Quem tiver o link vê só o que você escreveu aqui. Para mudar algo depois, volte nesta página: ela lembra o que você preencheu neste aparelho.</p>
+        </div>
+      </section>
+    </aside>
+  </div>
+</main>
+<footer class="f"><div class="wrap">Sem IA: ele casa a pergunta com os exemplos que você deu e erra quando a pergunta foge muito deles; nesses casos ele passa para você. Teste bastante antes de divulgar. · <a href="index.html">freguesbot</a>, código aberto.</div></footer>
+<script src="kit.js"></script>
+<script src="bot.js"></script>
+<script src="chat.js"></script>
+<script src="montar.js"></script>
+</body>
+</html>

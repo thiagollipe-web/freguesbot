@@ -31,6 +31,10 @@ COMPLAINT = re.compile(r"reclam|ruim|pessim|horrivel|insatisf|decepcion|absurd|p
 
 
 class Bot:
+    def _label(self, intent: str) -> str:
+        # nome amigável opcional (config["labels"]); sem ele, usa o nome da intenção
+        return self.cfg.get("labels", {}).get(intent, intent)
+
     def __init__(self, config: dict, threshold: float = 0.55, margin: float = 0.08, con=None, seed: int = 0,
                  min_conf: float = 0.35, min_gap: float = 0.15):
         self.cfg, self.threshold, self.margin, self.con = config, threshold, margin, con
@@ -97,7 +101,7 @@ class Bot:
         if not ranked or not self._confident(ranked):
             return self._handoff(text, "desconhecido", conf)
         if len(ranked) > 1 and ranked[1][1] >= conf - self.margin and ranked[1][0] != top and conf < 0.8:
-            return Reply(f"Só para entender: você quer saber sobre {top} ou {ranked[1][0]}?", "ambiguo", conf)
+            return Reply(f"Só para entender: você quer saber sobre {self._label(top)} ou {self._label(ranked[1][0])}?", "ambiguo", conf)
         if top == "agendar":
             s.state = "booking"
             self._fill(text, s)
